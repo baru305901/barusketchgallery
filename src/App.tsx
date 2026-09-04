@@ -51,7 +51,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FDFBF7] text-[#1A1A1A] font-sans-ui antialiased selection:bg-[#5A5A40]/20 selection:text-[#1A1A1A]">
+    <div className="min-h-screen flex flex-col bg-[#F7F1E7] text-[#2D241E] font-sans-ui antialiased selection:bg-[#6B452D]/20 selection:text-[#2D241E]">
       
       {/* Primary Header & Navigation */}
       <Navbar 

@@ -77,30 +77,30 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
   return (
     <div className="space-y-10 pb-16">
       
-      {/* Editorial Hero Banner */}
-      <section className="relative rounded-2xl bg-[#1A1A1A] text-[#FDFBF7] p-8 sm:p-12 md:p-14 overflow-hidden border border-[#1A1A1A] shadow-xl">
+      {/* Editorial Hero Banner - Warm Cream & Beige Luxury Art-Gallery Style */}
+      <section className="relative rounded-2xl bg-gradient-to-br from-[#F7F1E7] via-[#F3ECE1] to-[#E9DDCC] text-[#2D241E] p-8 sm:p-12 md:p-14 overflow-hidden border border-[#D6C8B8] shadow-md">
         {/* Background decorative ambient subtle tones */}
-        <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-[#5A5A40]/20 blur-3xl pointer-events-none"></div>
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-[#8B0000]/10 blur-3xl pointer-events-none"></div>
+        <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-[#A8753F]/15 blur-3xl pointer-events-none"></div>
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-[#6B452D]/10 blur-3xl pointer-events-none"></div>
 
         <div className="relative z-10 max-w-3xl space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#2A2A2A] border border-white/15 text-[#EFEBE4] text-[10px] font-semibold uppercase tracking-[0.25em] font-sans-ui">
-            <Sparkles className="w-3.5 h-3.5 text-[#DCD6C8]" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/85 border border-[#D6C8B8] text-[#4A2F1F] text-[10px] font-semibold uppercase tracking-[0.25em] font-sans-ui shadow-xs rounded-full">
+            <Sparkles className="w-3.5 h-3.5 text-[#A8753F]" />
             <span>Beawar • Rajasthan Atelier</span>
           </div>
 
-          <h1 className="font-cinzel text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#FDFBF7] leading-tight">
-            Original Artworks & Devotional Masterpieces
+          <h1 className="font-cinzel text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#2D241E] leading-tight">
+            <span className="text-[#6B452D]">Original Artworks</span> & Devotional Masterpieces
           </h1>
 
-          <p className="font-cormorant text-xl sm:text-2xl text-[#D6D0C5] leading-relaxed italic max-w-2xl">
+          <p className="font-cormorant text-xl sm:text-2xl text-[#4A2F1F] leading-relaxed italic max-w-2xl">
             "Chitrakari ek anokhi kala hai jo imagination ko samne la deta hai." Sacred Pichwai paintings, lifelike graphite portraits, and luminous watercolors by artist Vishal Baru.
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-2">
             <a
               href="#gallery-grid"
-              className="px-6 py-3 bg-[#FDFBF7] hover:bg-white text-[#1A1A1A] font-semibold text-xs uppercase tracking-[0.2em] font-sans-ui transition-all duration-200 shadow-sm flex items-center gap-2"
+              className="px-6 py-3 bg-[#6B452D] hover:bg-[#4A2F1F] text-[#FFFFFF] font-semibold text-xs uppercase tracking-[0.2em] font-sans-ui transition-all duration-200 shadow-sm flex items-center gap-2 rounded-md"
             >
               <span>Explore Collection</span>
               <ArrowRight className="w-4 h-4" />
@@ -108,25 +108,25 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
 
             <button
               onClick={onOpenCommission}
-              className="px-6 py-3 bg-transparent hover:bg-white/10 text-[#FDFBF7] font-medium text-xs uppercase tracking-[0.15em] font-sans-ui border border-white/30 transition-all duration-200"
+              className="px-6 py-3 bg-transparent hover:bg-[#E9DDCC]/60 text-[#4A2F1F] font-semibold text-xs uppercase tracking-[0.15em] font-sans-ui border-2 border-[#6B452D] transition-all duration-200 rounded-md"
             >
               Request Custom Commission
             </button>
           </div>
 
           {/* Quick Metrics Bar */}
-          <div className="grid grid-cols-3 gap-4 pt-6 border-t border-white/15 max-w-lg">
+          <div className="grid grid-cols-3 gap-4 pt-6 border-t border-[#D6C8B8] max-w-lg">
             <div>
-              <div className="font-cinzel text-xl sm:text-2xl font-bold text-[#FDFBF7]">{paintings.length}</div>
-              <div className="text-[10px] uppercase tracking-widest text-[#A8A49A] font-sans-ui">Total Works</div>
+              <div className="font-cinzel text-xl sm:text-2xl font-bold text-[#6B452D]">{paintings.length}</div>
+              <div className="text-[10px] uppercase tracking-widest text-[#4A2F1F] font-sans-ui font-medium">Total Works</div>
             </div>
             <div>
-              <div className="font-cinzel text-xl sm:text-2xl font-bold text-emerald-400">{availableCount}</div>
-              <div className="text-[10px] uppercase tracking-widest text-[#A8A49A] font-sans-ui">Available</div>
+              <div className="font-cinzel text-xl sm:text-2xl font-bold text-[#6B452D]">{availableCount}</div>
+              <div className="text-[10px] uppercase tracking-widest text-[#4A2F1F] font-sans-ui font-medium">Available</div>
             </div>
             <div>
-              <div className="font-cinzel text-xl sm:text-2xl font-bold text-[#DCD6C8]">{soldCount}</div>
-              <div className="text-[10px] uppercase tracking-widest text-[#A8A49A] font-sans-ui">Collected</div>
+              <div className="font-cinzel text-xl sm:text-2xl font-bold text-[#6B452D]">{soldCount}</div>
+              <div className="text-[10px] uppercase tracking-widest text-[#4A2F1F] font-sans-ui font-medium">Collected</div>
             </div>
           </div>
         </div>
@@ -134,22 +134,22 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
 
       {/* Filter and Search Bar Section */}
       <section id="gallery-grid" className="space-y-6">
-        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 bg-[#F5F2ED] p-4 sm:p-5 rounded-xl border border-[#1A1A1A]/10 shadow-xs">
+        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 bg-white p-4 sm:p-5 rounded-xl border border-[#D6C8B8] shadow-xs">
           
           {/* Search Input */}
           <div className="relative flex-1">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#1A1A1A]/40" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7B6858]" />
             <input
               type="text"
               value={searchQuery || ''}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by title, style (Pichwai, Charcoal), size, or theme..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[#1A1A1A]/15 bg-white text-xs font-sans-ui focus:outline-none focus:ring-1 focus:ring-[#1A1A1A] transition-all"
+              className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[#D6C8B8] bg-white text-xs font-sans-ui text-[#2D241E] placeholder-[#7B6858] focus:outline-none focus:ring-1 focus:ring-[#6B452D] focus:border-[#6B452D] transition-all"
             />
             {searchQuery && (
               <button 
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#1A1A1A]/50 hover:text-[#1A1A1A]"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#7B6858] hover:text-[#2D241E]"
               >
                 Clear
               </button>
@@ -160,13 +160,13 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
           <div className="flex flex-wrap items-center gap-3">
             
             {/* Status Filter */}
-            <div className="flex items-center bg-white p-1 rounded-lg border border-[#1A1A1A]/15 text-xs font-sans-ui">
+            <div className="flex items-center bg-[#F7F1E7] p-1 rounded-lg border border-[#D6C8B8] text-xs font-sans-ui">
               <button
                 onClick={() => setSelectedStatus('all')}
                 className={`px-3 py-1.5 rounded-md text-[11px] uppercase tracking-wider font-semibold transition-all ${
                   selectedStatus === 'all' 
-                    ? 'bg-[#1A1A1A] text-[#FDFBF7]' 
-                    : 'text-[#1A1A1A]/70 hover:text-[#1A1A1A]'
+                    ? 'bg-[#6B452D] text-[#FFFFFF] shadow-xs' 
+                    : 'text-[#4A2F1F] hover:bg-[#E9DDCC]'
                 }`}
               >
                 All Status
@@ -175,8 +175,8 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
                 onClick={() => setSelectedStatus('available')}
                 className={`px-3 py-1.5 rounded-md text-[11px] uppercase tracking-wider font-semibold transition-all flex items-center gap-1.5 ${
                   selectedStatus === 'available' 
-                    ? 'bg-[#2F4F4F] text-white' 
-                    : 'text-[#1A1A1A]/70 hover:text-[#2F4F4F]'
+                    ? 'bg-[#4A2F1F] text-[#FFFFFF] shadow-xs' 
+                    : 'text-[#4A2F1F] hover:bg-[#E9DDCC]'
                 }`}
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
@@ -186,8 +186,8 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
                 onClick={() => setSelectedStatus('sold')}
                 className={`px-3 py-1.5 rounded-md text-[11px] uppercase tracking-wider font-semibold transition-all ${
                   selectedStatus === 'sold' 
-                    ? 'bg-[#8B0000] text-white' 
-                    : 'text-[#1A1A1A]/70 hover:text-[#8B0000]'
+                    ? 'bg-[#4A2F1F] text-[#FFFFFF] shadow-xs' 
+                    : 'text-[#4A2F1F] hover:bg-[#E9DDCC]'
                 }`}
               >
                 Sold ({soldCount})
@@ -195,12 +195,12 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
             </div>
 
             {/* Sort Dropdown */}
-            <div className="flex items-center gap-1.5 bg-white border border-[#1A1A1A]/15 rounded-lg px-3 py-2 text-xs font-sans-ui text-[#1A1A1A]">
-              <ArrowUpDown className="w-3.5 h-3.5 text-[#1A1A1A]/60" />
+            <div className="flex items-center gap-1.5 bg-white border border-[#D6C8B8] rounded-lg px-3 py-2 text-xs font-sans-ui text-[#2D241E]">
+              <ArrowUpDown className="w-3.5 h-3.5 text-[#7B6858]" />
               <select
                 value={sortBy || 'featured'}
                 onChange={(e) => setSortBy(e.target.value as any)}
-                className="bg-transparent focus:outline-none cursor-pointer pr-2 text-xs"
+                className="bg-transparent focus:outline-none cursor-pointer pr-2 text-xs text-[#2D241E]"
               >
                 <option value="featured">Featured Curations</option>
                 <option value="newest">Recently Added</option>
@@ -222,11 +222,11 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
                 onClick={() => setSelectedType(type.id)}
                 className={`px-4 py-2 rounded-lg text-xs uppercase tracking-widest font-sans-ui whitespace-nowrap transition-all duration-200 flex items-center gap-1.5 ${
                   isSelected
-                    ? 'bg-[#1A1A1A] text-[#FDFBF7] font-bold shadow-xs'
-                    : 'bg-white text-[#1A1A1A]/80 hover:bg-[#F5F2ED] border border-[#1A1A1A]/15'
+                    ? 'bg-[#4A2F1F] text-[#FFFFFF] font-bold shadow-xs border border-[#4A2F1F]'
+                    : 'bg-white text-[#4A2F1F] hover:bg-[#E9DDCC] border border-[#D6C8B8]'
                 }`}
               >
-                <Palette className={`w-3.5 h-3.5 ${isSelected ? 'text-[#DCD6C8]' : 'text-[#5A5A40]'}`} />
+                <Palette className={`w-3.5 h-3.5 ${isSelected ? 'text-[#E9DDCC]' : 'text-[#A8753F]'}`} />
                 <span>{type.label}</span>
               </button>
             );
@@ -237,10 +237,10 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
       {/* Paintings Grid Showcase */}
       <section>
         {filteredPaintings.length === 0 ? (
-          <div className="p-12 text-center bg-white rounded-2xl border border-[#1A1A1A]/10 space-y-4">
-            <Palette className="w-12 h-12 text-[#1A1A1A]/30 mx-auto" />
-            <h3 className="font-cinzel text-lg font-bold text-[#1A1A1A]">No Artworks Found</h3>
-            <p className="text-xs text-[#1A1A1A]/60 max-w-md mx-auto font-sans-ui">
+          <div className="p-12 text-center bg-white rounded-2xl border border-[#D6C8B8] space-y-4 shadow-xs">
+            <Palette className="w-12 h-12 text-[#7B6858] mx-auto" />
+            <h3 className="font-cinzel text-lg font-bold text-[#2D241E]">No Artworks Found</h3>
+            <p className="text-xs text-[#4A2F1F] max-w-md mx-auto font-sans-ui">
               We couldn't find any paintings matching your current filter criteria. Try changing your search keywords or category filters.
             </p>
             <button
@@ -249,7 +249,7 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
                 setSelectedStatus('all');
                 setSearchQuery('');
               }}
-              className="px-4 py-2 bg-[#1A1A1A] text-white text-xs uppercase tracking-widest font-sans-ui font-medium"
+              className="px-5 py-2.5 bg-[#6B452D] hover:bg-[#4A2F1F] text-white text-xs uppercase tracking-widest font-sans-ui font-semibold rounded-md shadow-xs transition-colors"
             >
               Reset Filters
             </button>
@@ -268,23 +268,23 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
       </section>
 
       {/* Commission Callout Footer Strip */}
-      <section className="p-8 sm:p-10 rounded-2xl bg-[#F5F2ED] border border-[#1A1A1A]/10 flex flex-col md:flex-row items-center justify-between gap-6">
+      <section className="p-8 sm:p-10 rounded-2xl bg-gradient-to-r from-[#E9DDCC] via-[#F4ECE0] to-[#F7F1E7] border border-[#D6C8B8] flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
         <div className="space-y-2 text-center md:text-left">
-          <div className="flex items-center justify-center md:justify-start gap-2 text-[#5A5A40] text-[10px] font-bold uppercase tracking-[0.2em] font-sans-ui">
-            <Palette className="w-4 h-4" />
+          <div className="flex items-center justify-center md:justify-start gap-2 text-[#6B452D] text-[10px] font-bold uppercase tracking-[0.2em] font-sans-ui">
+            <Palette className="w-4 h-4 text-[#A8753F]" />
             <span>Looking for a Bespoke Custom Size or Motif?</span>
           </div>
-          <h3 className="font-cinzel text-xl sm:text-2xl font-bold text-[#1A1A1A]">
+          <h3 className="font-cinzel text-xl sm:text-2xl font-bold text-[#2D241E]">
             Order a Custom Commission Painting
           </h3>
-          <p className="text-xs sm:text-sm text-[#1A1A1A]/70 max-w-xl font-sans-ui leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#4A2F1F] max-w-xl font-sans-ui leading-relaxed">
             Upload your reference photograph or describe your required Pichwai / portrait dimensions. Vishal Baru will hand-render it to perfection.
           </p>
         </div>
 
         <button
           onClick={onOpenCommission}
-          className="px-6 py-3 bg-[#1A1A1A] hover:bg-[#5A5A40] text-white font-semibold text-xs uppercase tracking-[0.2em] font-sans-ui transition-all shadow-sm shrink-0 flex items-center gap-2"
+          className="px-6 py-3 bg-[#6B452D] hover:bg-[#4A2F1F] text-white font-semibold text-xs uppercase tracking-[0.2em] font-sans-ui transition-all shadow-sm shrink-0 flex items-center gap-2 rounded-md"
         >
           <span>Book Custom Order</span>
           <ArrowRight className="w-4 h-4" />

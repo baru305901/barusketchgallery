@@ -3,8 +3,8 @@
 @layer base {
   body {
     font-family: 'Helvetica Neue', Helvetica, Arial, -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: #FDFBF7;
-    color: #1A1A1A;
+    background-color: #F7F1E7;
+    color: #2D241E;
   }
   
   h1, h2, h3, .font-serif-title, .font-cinzel {
@@ -20,35 +20,37 @@
   }
 }
 
-/* Artistic Flair theme utility classes */
+/* Warm Brown & Cream Art Gallery theme utility classes */
 .pichwai-border {
-  border: 10px solid #5A5A40;
-  outline: 1px solid #1A1A1A;
-  outline-offset: -6px;
+  border: 8px solid #6B452D;
+  outline: 1px solid #4A2F1F;
+  outline-offset: -5px;
 }
 
 .sold-badge {
-  background: #8B0000;
+  background: #4A2F1F;
   color: #FFFFFF;
-  padding: 2px 8px;
+  padding: 2.5px 8px;
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  font-weight: 600;
+  font-weight: 700;
   display: inline-flex;
   align-items: center;
+  border-radius: 4px;
 }
 
 .available-badge {
-  background: #2F4F4F;
+  background: #6B452D;
   color: #FFFFFF;
-  padding: 2px 8px;
+  padding: 2.5px 8px;
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  font-weight: 600;
+  font-weight: 700;
   display: inline-flex;
   align-items: center;
+  border-radius: 4px;
 }
 
 .vertical-text {
@@ -63,16 +65,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #F5F2ED;
+  background: #F7F1E7;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #C4BEB2;
-  border-radius: 2px;
+  background: #D6C8B8;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #5A5A40;
+  background: #6B452D;
 }
 
 

@@ -500,15 +500,15 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   // If Not Authenticated, Show Protected Login Screen
   if (!isAuthenticated) {
     return (
-      <div className="max-w-md mx-auto my-12 p-8 bg-white rounded-3xl border border-[#E8DFC8] shadow-xl space-y-6">
+      <div className="max-w-md mx-auto my-12 p-8 bg-white rounded-3xl border border-[#D6C8B8] shadow-xl space-y-6">
         <div className="text-center space-y-2">
-          <div className="w-14 h-14 rounded-2xl bg-[#2C241D] text-[#E2B774] flex items-center justify-center mx-auto shadow-md">
+          <div className="w-14 h-14 rounded-2xl bg-[#4A2F1F] text-[#E9DDCC] flex items-center justify-center mx-auto shadow-md">
             <Lock className="w-7 h-7" />
           </div>
-          <h2 className="font-cinzel text-2xl font-bold text-[#2C241D]">
+          <h2 className="font-cinzel text-2xl font-bold text-[#2D241E]">
             Artist Control Panel
           </h2>
-          <p className="text-xs text-[#7A6A5C]">
+          <p className="text-xs text-[#7B6858]">
             Protected route for artist Vishal Baru to manage gallery catalog, commission leads, and Supabase database.
           </p>
         </div>
@@ -522,7 +522,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div className="space-y-1">
-            <label className="text-xs font-bold uppercase tracking-wider text-stone-600">
+            <label className="text-xs font-bold uppercase tracking-wider text-[#4A2F1F]">
               Artist Email
             </label>
             <input
@@ -530,16 +530,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               required
               value={authEmail}
               onChange={(e) => setAuthEmail(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl border border-stone-300 text-sm focus:ring-2 focus:ring-[#8C531B] focus:outline-none"
+              className="w-full px-4 py-2.5 rounded-xl border border-[#D6C8B8] text-sm text-[#2D241E] focus:ring-2 focus:ring-[#6B452D] focus:outline-none"
             />
           </div>
 
           <div className="space-y-1">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-bold uppercase tracking-wider text-stone-600">
+              <label className="text-xs font-bold uppercase tracking-wider text-[#4A2F1F]">
                 Password / Passcode
               </label>
-              <span className="text-[11px] text-[#8C531B] font-mono"></span>
+              <span className="text-[11px] text-[#6B452D] font-mono"></span>
             </div>
             <input
               type="password"
@@ -547,23 +547,23 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               placeholder="Enter passcode"
               value={authPassword}
               onChange={(e) => setAuthPassword(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl border border-stone-300 text-sm focus:ring-2 focus:ring-[#8C531B] focus:outline-none"
+              className="w-full px-4 py-2.5 rounded-xl border border-[#D6C8B8] text-sm text-[#2D241E] focus:ring-2 focus:ring-[#6B452D] focus:outline-none"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full py-3 rounded-xl bg-[#8C531B] hover:bg-[#734314] text-white font-semibold text-sm shadow-md transition-all flex items-center justify-center gap-2"
+            className="w-full py-3 rounded-xl bg-[#6B452D] hover:bg-[#4A2F1F] text-white font-semibold text-sm shadow-md transition-all flex items-center justify-center gap-2"
           >
             <Key className="w-4 h-4" />
             <span>Sign In to C-Panel</span>
           </button>
         </form>
 
-        <div className="pt-4 border-t border-stone-200 text-center">
+        <div className="pt-4 border-t border-[#D6C8B8] text-center">
           <button
             onClick={onExitAdmin}
-            className="text-xs text-stone-500 hover:text-stone-800"
+            className="text-xs text-[#7B6858] hover:text-[#2D241E]"
           >
             ← Return to Public Gallery
           </button>
@@ -589,16 +589,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       )}
 
       {/* Top Header Bar */}
-      <div className="bg-[#2C241D] text-[#FAF6ED] p-6 sm:p-8 rounded-3xl border border-[#483B2E] shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="bg-[#4A2F1F] text-[#F7F1E7] p-6 sm:p-8 rounded-3xl border border-[#3D2517] shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#8C531B]/30 text-[#E2B774] text-xs font-semibold uppercase tracking-wider mb-2">
-            <ShieldCheck className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#6B452D]/60 text-[#E9DDCC] text-xs font-semibold uppercase tracking-wider mb-2 border border-[#A8753F]/40">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#A8753F]" />
             <span>Artist Control Panel (C-Panel)</span>
           </div>
-          <h1 className="font-cinzel text-2xl sm:text-3xl font-bold text-[#FDF6E2]">
+          <h1 className="font-cinzel text-2xl sm:text-3xl font-bold text-[#F7F1E7]">
             Baru Sketch Gallery Studio Management
           </h1>
-          <p className="text-xs text-stone-300 mt-1">
+          <p className="text-xs text-[#E9DDCC] mt-1">
             Logged in as <strong>Vishal Baru</strong> (sketchartis007@gmail.com) • Masuda Road, Beawar 305901
           </p>
         </div>
@@ -606,7 +606,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={handleOpenAddPainting}
-            className="px-4 py-2.5 rounded-xl bg-[#C88A3B] hover:bg-[#B3772C] text-[#1F1913] font-semibold text-xs transition-all shadow-sm flex items-center gap-1.5"
+            className="px-4 py-2.5 rounded-xl bg-[#A8753F] hover:bg-[#8C531B] text-[#FFFFFF] font-semibold text-xs transition-all shadow-sm flex items-center gap-1.5"
           >
             <Plus className="w-4 h-4" />
             <span>Add New Painting</span>
@@ -614,7 +614,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
           <button
             onClick={onRefreshData}
-            className="p-2.5 rounded-xl bg-[#3A2F25] hover:bg-[#4D3F33] text-stone-300 hover:text-white border border-[#5E4D3E] transition-colors"
+            className="p-2.5 rounded-xl bg-[#3D2517] hover:bg-[#5C3A24] text-[#E9DDCC] hover:text-white border border-[#5C3A24] transition-colors"
             title="Refresh database records"
           >
             <RefreshCw className="w-4 h-4" />
@@ -622,7 +622,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
           <button
             onClick={handleLogout}
-            className="px-3.5 py-2.5 rounded-xl bg-[#3A2F25] hover:bg-rose-900/60 text-stone-300 hover:text-rose-200 border border-[#5E4D3E] text-xs font-medium transition-colors flex items-center gap-1.5"
+            className="px-3.5 py-2.5 rounded-xl bg-[#3D2517] hover:bg-rose-950 text-[#E9DDCC] hover:text-rose-200 border border-[#5C3A24] text-xs font-medium transition-colors flex items-center gap-1.5"
           >
             <LogOut className="w-3.5 h-3.5" />
             <span>Logout</span>
@@ -631,13 +631,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       </div>
 
       {/* Navigation Sub-Tabs */}
-      <div className="flex items-center border-b border-[#E8DFC8] bg-white p-2 rounded-2xl gap-2 shadow-xs overflow-x-auto">
+      <div className="flex items-center border-b border-[#D6C8B8] bg-white p-2 rounded-2xl gap-2 shadow-xs overflow-x-auto">
         <button
           onClick={() => setActiveSection('overview')}
           className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-2 ${
             activeSection === 'overview'
-              ? 'bg-[#2C241D] text-[#FAF6ED]'
-              : 'text-[#6B5E51] hover:bg-stone-100'
+              ? 'bg-[#4A2F1F] text-[#F7F1E7]'
+              : 'text-[#7B6858] hover:bg-[#F7F1E7]'
           }`}
         >
           <TrendingUp className="w-4 h-4 text-[#C88A3B]" />
@@ -648,11 +648,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           onClick={() => setActiveSection('paintings')}
           className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-2 ${
             activeSection === 'paintings'
-              ? 'bg-[#2C241D] text-[#FAF6ED]'
-              : 'text-[#6B5E51] hover:bg-stone-100'
+              ? 'bg-[#4A2F1F] text-[#F7F1E7]'
+              : 'text-[#7B6858] hover:bg-[#F7F1E7]'
           }`}
         >
-          <Palette className="w-4 h-4 text-[#C88A3B]" />
+          <Palette className="w-4 h-4 text-[#A8753F]" />
           <span>Manage Paintings ({paintings.length})</span>
         </button>
 
@@ -660,11 +660,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           onClick={() => setActiveSection('enquiries')}
           className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-2 relative ${
             activeSection === 'enquiries'
-              ? 'bg-[#2C241D] text-[#FAF6ED]'
-              : 'text-[#6B5E51] hover:bg-stone-100'
+              ? 'bg-[#4A2F1F] text-[#F7F1E7]'
+              : 'text-[#7B6858] hover:bg-[#F7F1E7]'
           }`}
         >
-          <FileText className="w-4 h-4 text-[#C88A3B]" />
+          <FileText className="w-4 h-4 text-[#A8753F]" />
           <span>View Enquiries ({enquiries.length})</span>
           {newEnquiries > 0 && (
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -675,11 +675,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           onClick={() => setActiveSection('supabase_sql')}
           className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-2 ${
             activeSection === 'supabase_sql'
-              ? 'bg-[#2C241D] text-[#FAF6ED]'
-              : 'text-[#6B5E51] hover:bg-stone-100'
+              ? 'bg-[#4A2F1F] text-[#F7F1E7]'
+              : 'text-[#7B6858] hover:bg-[#F7F1E7]'
           }`}
         >
-          <Database className="w-4 h-4 text-[#C88A3B]" />
+          <Database className="w-4 h-4 text-[#A8753F]" />
           <span>Supabase Connection</span>
         </button>
       </div>
@@ -690,28 +690,28 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           
           {/* Key Metrics Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-            <div className="p-5 rounded-2xl bg-white border border-[#E8DFC8] shadow-xs space-y-2">
-              <div className="text-xs font-bold uppercase tracking-wider text-stone-500">Total Paintings</div>
-              <div className="font-cinzel text-3xl font-bold text-[#2C241D]">{totalPaintings}</div>
-              <div className="text-[11px] text-stone-500">Original Catalog listings</div>
+            <div className="p-5 rounded-2xl bg-white border border-[#D6C8B8] shadow-xs space-y-2">
+              <div className="text-xs font-bold uppercase tracking-wider text-[#7B6858]">Total Paintings</div>
+              <div className="font-cinzel text-3xl font-bold text-[#2D241E]">{totalPaintings}</div>
+              <div className="text-[11px] text-[#7B6858]">Original Catalog listings</div>
             </div>
 
-            <div className="p-5 rounded-2xl bg-white border border-[#E8DFC8] shadow-xs space-y-2">
-              <div className="text-xs font-bold uppercase tracking-wider text-emerald-700">Available to Buy</div>
-              <div className="font-cinzel text-3xl font-bold text-emerald-700">{availablePaintings}</div>
-              <div className="text-[11px] text-stone-500">Ready for instant dispatch</div>
+            <div className="p-5 rounded-2xl bg-white border border-[#D6C8B8] shadow-xs space-y-2">
+              <div className="text-xs font-bold uppercase tracking-wider text-emerald-800">Available to Buy</div>
+              <div className="font-cinzel text-3xl font-bold text-emerald-800">{availablePaintings}</div>
+              <div className="text-[11px] text-[#7B6858]">Ready for instant dispatch</div>
             </div>
 
-            <div className="p-5 rounded-2xl bg-white border border-[#E8DFC8] shadow-xs space-y-2">
-              <div className="text-xs font-bold uppercase tracking-wider text-amber-700">Sold / Private Collection</div>
-              <div className="font-cinzel text-3xl font-bold text-amber-700">{soldPaintings}</div>
-              <div className="text-[11px] text-stone-500">Successfully acquired</div>
+            <div className="p-5 rounded-2xl bg-white border border-[#D6C8B8] shadow-xs space-y-2">
+              <div className="text-xs font-bold uppercase tracking-wider text-[#6B452D]">Sold / Private Collection</div>
+              <div className="font-cinzel text-3xl font-bold text-[#6B452D]">{soldPaintings}</div>
+              <div className="text-[11px] text-[#7B6858]">Successfully acquired</div>
             </div>
 
-            <div className="p-5 rounded-2xl bg-white border border-[#E8DFC8] shadow-xs space-y-2">
-              <div className="text-xs font-bold uppercase tracking-wider text-indigo-700">New Commission Leads</div>
-              <div className="font-cinzel text-3xl font-bold text-indigo-700">{newEnquiries}</div>
-              <div className="text-[11px] text-stone-500">Total inquiries: {totalEnquiries}</div>
+            <div className="p-5 rounded-2xl bg-white border border-[#D6C8B8] shadow-xs space-y-2">
+              <div className="text-xs font-bold uppercase tracking-wider text-[#4A2F1F]">New Commission Leads</div>
+              <div className="font-cinzel text-3xl font-bold text-[#4A2F1F]">{newEnquiries}</div>
+              <div className="text-[11px] text-[#7B6858]">Total inquiries: {totalEnquiries}</div>
             </div>
           </div>
 
@@ -719,36 +719,36 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             
             {/* Recent Enquiries Card */}
-            <div className="p-6 rounded-3xl bg-white border border-[#E8DFC8] shadow-xs space-y-4">
+            <div className="p-6 rounded-3xl bg-white border border-[#D6C8B8] shadow-xs space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="font-cinzel text-base font-bold text-[#2C241D]">
+                <h3 className="font-cinzel text-base font-bold text-[#2D241E]">
                   Latest Commission Enquiries
                 </h3>
                 <button
                   onClick={() => setActiveSection('enquiries')}
-                  className="text-xs text-[#8C531B] font-semibold hover:underline"
+                  className="text-xs text-[#6B452D] font-semibold hover:underline"
                 >
                   View All ({enquiries.length}) →
                 </button>
               </div>
 
               {enquiries.length === 0 ? (
-                <p className="text-xs text-stone-500 py-4">No enquiries received yet.</p>
+                <p className="text-xs text-[#7B6858] py-4">No enquiries received yet.</p>
               ) : (
                 <div className="space-y-3">
                   {enquiries.slice(0, 3).map(enq => (
-                    <div key={enq.id} className="p-3.5 rounded-xl bg-stone-50 border border-stone-200 flex items-start justify-between gap-3">
+                    <div key={enq.id} className="p-3.5 rounded-xl bg-[#F7F1E7]/70 border border-[#D6C8B8] flex items-start justify-between gap-3">
                       <div>
-                        <div className="text-sm font-bold text-[#2C241D]">{enq.client_name}</div>
-                        <div className="text-xs text-[#8C531B] font-medium">{enq.subject}</div>
-                        <div className="text-xs text-stone-500 line-clamp-1 mt-0.5">{enq.message}</div>
+                        <div className="text-sm font-bold text-[#2D241E]">{enq.client_name}</div>
+                        <div className="text-xs text-[#6B452D] font-medium">{enq.subject}</div>
+                        <div className="text-xs text-[#7B6858] line-clamp-1 mt-0.5">{enq.message}</div>
                       </div>
                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase ${
                         enq.status === 'new' 
                           ? 'bg-emerald-100 text-emerald-800' 
                           : enq.status === 'contacted'
                           ? 'bg-amber-100 text-amber-800'
-                          : 'bg-stone-200 text-stone-700'
+                          : 'bg-[#E9DDCC] text-[#2D241E]'
                       }`}>
                         {enq.status}
                       </span>
@@ -759,31 +759,31 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             </div>
 
             {/* Quick Painting Management Card */}
-            <div className="p-6 rounded-3xl bg-white border border-[#E8DFC8] shadow-xs space-y-4">
+            <div className="p-6 rounded-3xl bg-white border border-[#D6C8B8] shadow-xs space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="font-cinzel text-base font-bold text-[#2C241D]">
+                <h3 className="font-cinzel text-base font-bold text-[#2D241E]">
                   Gallery Inventory Quick Actions
                 </h3>
                 <button
                   onClick={handleOpenAddPainting}
-                  className="text-xs text-[#8C531B] font-semibold hover:underline flex items-center gap-1"
+                  className="text-xs text-[#6B452D] font-semibold hover:underline flex items-center gap-1"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>Add Painting</span>
                 </button>
               </div>
 
-              <div className="p-4 rounded-2xl bg-[#FAF6EE] border border-[#E8DFC8] space-y-3">
+              <div className="p-4 rounded-2xl bg-[#F7F1E7] border border-[#D6C8B8] space-y-3">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-stone-600">Active Gallery Inventory Valuation:</span>
-                  <span className="font-cinzel font-bold text-[#8C531B] text-base">₹{totalInventoryValue.toLocaleString('en-IN')}</span>
+                  <span className="text-[#4A2F1F]">Active Gallery Inventory Valuation:</span>
+                  <span className="font-cinzel font-bold text-[#6B452D] text-base">₹{totalInventoryValue.toLocaleString('en-IN')}</span>
                 </div>
-                <div className="text-xs text-stone-500 leading-relaxed">
+                <div className="text-xs text-[#7B6858] leading-relaxed">
                   You can toggle painting availability between <strong>"Available"</strong> and <strong>"Sold"</strong> with a single click in the Manage Paintings table.
                 </div>
                 <button
                   onClick={() => setActiveSection('paintings')}
-                  className="w-full py-2 rounded-xl bg-[#2C241D] text-white text-xs font-semibold hover:bg-stone-800 transition-colors"
+                  className="w-full py-2 rounded-xl bg-[#4A2F1F] text-[#F7F1E7] text-xs font-semibold hover:bg-[#3D2517] transition-colors"
                 >
                   Manage Paintings Table
                 </button>
@@ -800,27 +800,27 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <h2 className="font-cinzel text-xl font-bold text-[#2C241D]">
+              <h2 className="font-cinzel text-xl font-bold text-[#2D241E]">
                 Manage Paintings & Catalog
               </h2>
-              <p className="text-xs text-stone-500">
+              <p className="text-xs text-[#7B6858]">
                 Add, edit prices, descriptions, update images, and toggle Available/Sold statuses.
               </p>
             </div>
 
             <button
               onClick={handleOpenAddPainting}
-              className="px-4 py-2.5 rounded-xl bg-[#8C531B] hover:bg-[#734314] text-white text-xs font-semibold flex items-center gap-2 shadow-sm"
+              className="px-4 py-2.5 rounded-xl bg-[#6B452D] hover:bg-[#4A2F1F] text-white text-xs font-semibold flex items-center gap-2 shadow-sm"
             >
               <Plus className="w-4 h-4" />
               <span>Add New Painting</span>
             </button>
           </div>
 
-          <div className="bg-white rounded-3xl border border-[#E8DFC8] overflow-hidden shadow-xs">
+          <div className="bg-white rounded-3xl border border-[#D6C8B8] overflow-hidden shadow-xs">
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs text-stone-700">
-                <thead className="bg-[#FAF6EE] text-[#2C241D] border-b border-[#E8DFC8] font-cinzel uppercase text-[11px] tracking-wider">
+              <table className="w-full text-left text-xs text-[#2D241E]">
+                <thead className="bg-[#F7F1E7] text-[#2D241E] border-b border-[#D6C8B8] font-cinzel uppercase text-[11px] tracking-wider">
                   <tr>
                     <th className="py-3.5 px-4">Artwork</th>
                     <th className="py-3.5 px-4">Medium / Type</th>
@@ -830,50 +830,50 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     <th className="py-3.5 px-4 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-stone-100">
+                <tbody className="divide-y divide-[#E9DDCC]">
                   {paintings.map((painting) => {
                     const isAvailable = (painting.status || '').trim().toLowerCase() === 'available';
                     return (
-                      <tr key={painting.id} className="hover:bg-stone-50/70 transition-colors">
+                      <tr key={painting.id} className="hover:bg-[#F7F1E7]/50 transition-colors">
                         <td className="py-3 px-4">
                           <div className="flex items-center gap-3">
                             <div className="relative shrink-0">
                               <img
                                 src={painting.image_url || painting.images?.[0]}
                                 alt={painting.name}
-                                className="w-12 h-12 rounded-lg object-cover border border-stone-200"
+                                className="w-12 h-12 rounded-lg object-cover border border-[#D6C8B8]"
                               />
                               {(painting.images?.length || 0) > 1 && (
-                                <span className="absolute -bottom-1 -right-1 bg-stone-900 text-amber-300 text-[9px] px-1 rounded font-bold border border-white">
+                                <span className="absolute -bottom-1 -right-1 bg-[#4A2F1F] text-[#E9DDCC] text-[9px] px-1 rounded font-bold border border-white">
                                   {painting.images?.length}
                                 </span>
                               )}
                             </div>
                             <div>
-                              <div className="font-bold text-stone-900 line-clamp-1">{painting.name}</div>
-                              <div className="text-[11px] text-stone-500 flex items-center gap-1.5 flex-wrap">
+                              <div className="font-bold text-[#2D241E] line-clamp-1">{painting.name}</div>
+                              <div className="text-[11px] text-[#7B6858] flex items-center gap-1.5 flex-wrap">
                                 <span>Artist: Vishal Baru</span>
                                 {(painting.images?.length || 0) > 1 && (
-                                  <span className="text-[#8C531B] font-semibold flex items-center gap-0.5">
-                                    <Images className="w-3 h-3" />
+                                  <span className="text-[#6B452D] font-semibold flex items-center gap-0.5">
+                                    <Images className="w-3 h-3 text-[#A8753F]" />
                                     <span>{painting.images?.length} photos</span>
                                   </span>
                                 )}
-                                {painting.featured && <span className="text-amber-600 font-medium">• ⭐ Featured</span>}
+                                {painting.featured && <span className="text-[#A8753F] font-semibold">• ⭐ Featured</span>}
                               </div>
                             </div>
                           </div>
                         </td>
 
                         <td className="py-3 px-4">
-                          <span className="px-2.5 py-1 rounded-md bg-stone-100 text-stone-800 font-medium">
+                          <span className="px-2.5 py-1 rounded-md bg-[#E9DDCC] text-[#4A2F1F] font-medium border border-[#D6C8B8]">
                             {painting.type}
                           </span>
                         </td>
 
-                        <td className="py-3 px-4 font-mono">{painting.size}</td>
+                        <td className="py-3 px-4 font-mono text-[#4A2F1F]">{painting.size}</td>
 
-                        <td className="py-3 px-4 font-cinzel font-bold text-[#8C531B] text-sm">
+                        <td className="py-3 px-4 font-cinzel font-bold text-[#6B452D] text-sm">
                           ₹{painting.price.toLocaleString('en-IN')}
                         </td>
 
@@ -883,11 +883,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                             className={`px-3 py-1 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 ${
                               isAvailable
                                 ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
-                                : 'bg-stone-200 text-stone-700 hover:bg-stone-300'
+                                : 'bg-[#E9DDCC] text-[#7B6858] hover:bg-[#D6C8B8]'
                             }`}
                             title="Click to toggle status"
                           >
-                            <span className={`w-2 h-2 rounded-full ${isAvailable ? 'bg-emerald-600' : 'bg-stone-600'}`}></span>
+                            <span className={`w-2 h-2 rounded-full ${isAvailable ? 'bg-emerald-600' : 'bg-[#7B6858]'}`}></span>
                             <span>{isAvailable ? 'Available' : 'Sold'}</span>
                           </button>
                         </td>
@@ -896,14 +896,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                           <div className="flex items-center justify-end gap-1.5">
                             <button
                               onClick={() => handleOpenEditPainting(painting)}
-                              className="p-1.5 rounded-lg text-stone-600 hover:text-[#8C531B] hover:bg-amber-50"
+                              className="p-1.5 rounded-lg text-[#7B6858] hover:text-[#6B452D] hover:bg-[#E9DDCC]"
                               title="Edit painting details"
                             >
                               <Edit3 className="w-4 h-4" />
                             </button>
                             <button
                               onClick={() => handleDeletePainting(painting.id, painting.name)}
-                              className="p-1.5 rounded-lg text-stone-400 hover:text-rose-600 hover:bg-rose-50"
+                              className="p-1.5 rounded-lg text-[#7B6858] hover:text-rose-600 hover:bg-rose-50"
                               title="Delete painting"
                             >
                               <Trash2 className="w-4 h-4" />
@@ -925,20 +925,20 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <h2 className="font-cinzel text-xl font-bold text-[#2C241D]">
+              <h2 className="font-cinzel text-xl font-bold text-[#2D241E]">
                 Commission Orders & Enquiries
               </h2>
-              <p className="text-xs text-stone-500">
+              <p className="text-xs text-[#7B6858]">
                 View client contact details, download reference photos, and update fulfillment status.
               </p>
             </div>
 
             {/* Filter Pills */}
-            <div className="flex items-center bg-stone-100 p-1 rounded-xl text-xs">
+            <div className="flex items-center bg-[#F7F1E7] border border-[#D6C8B8] p-1 rounded-xl text-xs">
               <button
                 onClick={() => setEnquiryFilter('all')}
                 className={`px-3 py-1 rounded-lg font-medium transition-all ${
-                  enquiryFilter === 'all' ? 'bg-white text-[#2C241D] shadow-xs' : 'text-stone-600'
+                  enquiryFilter === 'all' ? 'bg-[#4A2F1F] text-[#F7F1E7] shadow-xs' : 'text-[#7B6858]'
                 }`}
               >
                 All ({enquiries.length})
@@ -946,7 +946,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               <button
                 onClick={() => setEnquiryFilter('new')}
                 className={`px-3 py-1 rounded-lg font-medium transition-all ${
-                  enquiryFilter === 'new' ? 'bg-emerald-600 text-white shadow-xs' : 'text-stone-600'
+                  enquiryFilter === 'new' ? 'bg-emerald-700 text-white shadow-xs' : 'text-[#7B6858]'
                 }`}
               >
                 New ({newEnquiries})
@@ -954,7 +954,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               <button
                 onClick={() => setEnquiryFilter('contacted')}
                 className={`px-3 py-1 rounded-lg font-medium transition-all ${
-                  enquiryFilter === 'contacted' ? 'bg-amber-600 text-white shadow-xs' : 'text-stone-600'
+                  enquiryFilter === 'contacted' ? 'bg-[#A8753F] text-white shadow-xs' : 'text-[#7B6858]'
                 }`}
               >
                 Contacted
@@ -962,7 +962,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               <button
                 onClick={() => setEnquiryFilter('closed')}
                 className={`px-3 py-1 rounded-lg font-medium transition-all ${
-                  enquiryFilter === 'closed' ? 'bg-stone-700 text-white shadow-xs' : 'text-stone-600'
+                  enquiryFilter === 'closed' ? 'bg-[#6B452D] text-white shadow-xs' : 'text-[#7B6858]'
                 }`}
               >
                 Closed
@@ -981,14 +981,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               {filteredEnquiries.map((enq) => (
                 <div 
                   key={enq.id}
-                  className="bg-white rounded-2xl p-5 border border-[#E8DFC8] shadow-xs space-y-4 flex flex-col justify-between"
+                  className="bg-white rounded-2xl p-5 border border-[#D6C8B8] shadow-xs space-y-4 flex flex-col justify-between"
                 >
                   <div className="space-y-3">
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <div className="text-base font-bold text-[#2C241D]">{enq.client_name}</div>
-                        <div className="text-xs font-semibold text-[#8C531B]">{enq.subject}</div>
-                        <div className="text-[11px] text-stone-400 mt-0.5">
+                        <div className="text-base font-bold text-[#2D241E]">{enq.client_name}</div>
+                        <div className="text-xs font-semibold text-[#6B452D]">{enq.subject}</div>
+                        <div className="text-[11px] text-[#7B6858] mt-0.5">
                           {new Date(enq.created_at).toLocaleString()}
                         </div>
                       </div>
@@ -1002,7 +1002,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                             ? 'bg-emerald-50 border-emerald-300 text-emerald-800'
                             : enq.status === 'contacted'
                             ? 'bg-amber-50 border-amber-300 text-amber-800'
-                            : 'bg-stone-100 border-stone-300 text-stone-700'
+                            : 'bg-[#E9DDCC] border-[#D6C8B8] text-[#2D241E]'
                         }`}
                       >
                         <option value="new">Status: New</option>
@@ -1012,9 +1012,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     </div>
 
                     {/* Client Contacts */}
-                    <div className="flex flex-wrap items-center gap-3 text-xs text-stone-600 bg-stone-50 p-2.5 rounded-xl">
-                      <a href={`mailto:${enq.client_email}`} className="flex items-center gap-1 hover:text-[#8C531B]">
-                        <Mail className="w-3.5 h-3.5 text-[#8C531B]" />
+                    <div className="flex flex-wrap items-center gap-3 text-xs text-[#2D241E] bg-[#F7F1E7] p-2.5 rounded-xl border border-[#D6C8B8]">
+                      <a href={`mailto:${enq.client_email}`} className="flex items-center gap-1 hover:text-[#6B452D]">
+                        <Mail className="w-3.5 h-3.5 text-[#6B452D]" />
                         <span>{enq.client_email}</span>
                       </a>
                       {enq.client_phone && (
@@ -1022,27 +1022,27 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                           href={`https://wa.me/${enq.client_phone.replace(/\D/g, '')}`} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1 text-emerald-700 font-medium hover:underline"
+                          className="flex items-center gap-1 text-emerald-800 font-medium hover:underline"
                         >
-                          <Phone className="w-3.5 h-3.5" />
+                          <Phone className="w-3.5 h-3.5 text-emerald-700" />
                           <span>{enq.client_phone}</span>
                         </a>
                       )}
                     </div>
 
                     {/* Message */}
-                    <div className="text-xs text-stone-700 leading-relaxed bg-[#FAF6EE] p-3 rounded-xl">
+                    <div className="text-xs text-[#2D241E] leading-relaxed bg-[#F7F1E7]/70 p-3 rounded-xl border border-[#D6C8B8]">
                       "{enq.message}"
                     </div>
 
                     {/* Reference photo preview if client uploaded */}
                     {enq.reference_image_url && (
                       <div className="space-y-1.5 pt-1">
-                        <div className="text-[11px] font-bold uppercase tracking-wider text-stone-500 flex items-center justify-between">
+                        <div className="text-[11px] font-bold uppercase tracking-wider text-[#4A2F1F] flex items-center justify-between">
                           <span>Client Uploaded Reference Photo</span>
                           <button
                             onClick={() => setPreviewReferenceImage(enq.reference_image_url!)}
-                            className="text-[#8C531B] hover:underline normal-case font-medium flex items-center gap-1"
+                            className="text-[#6B452D] hover:underline normal-case font-medium flex items-center gap-1"
                           >
                             <Eye className="w-3 h-3" />
                             <span>View Full Resolution</span>
@@ -1051,7 +1051,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
                         <div 
                           onClick={() => setPreviewReferenceImage(enq.reference_image_url!)}
-                          className="relative h-28 rounded-xl overflow-hidden bg-stone-900 border border-stone-200 cursor-pointer group"
+                          className="relative h-28 rounded-xl overflow-hidden bg-[#2D241E] border border-[#D6C8B8] cursor-pointer group"
                         >
                           <img
                             src={enq.reference_image_url}
@@ -1059,7 +1059,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                           />
                           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-semibold gap-1">
-                            <Eye className="w-4 h-4" />
+                            <Eye className="w-4 h-4 text-[#E9DDCC]" />
                             <span>Inspect Reference</span>
                           </div>
                         </div>
@@ -1068,8 +1068,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   </div>
 
                   {/* Actions */}
-                  <div className="pt-2 border-t border-stone-100 flex items-center justify-between">
-                    <span className="text-[10px] text-stone-400 font-mono">ID: {enq.id}</span>
+                  <div className="pt-2 border-t border-[#E9DDCC] flex items-center justify-between">
+                    <span className="text-[10px] text-[#7B6858] font-mono">ID: {enq.id}</span>
                     
                     {enq.client_phone && (
                       <a
@@ -1097,20 +1097,20 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <h2 className="font-cinzel text-xl font-bold text-[#2C241D]">
+              <h2 className="font-cinzel text-xl font-bold text-[#2D241E]">
                 Supabase Database Connection
               </h2>
-              <p className="text-xs text-stone-500">
+              <p className="text-xs text-[#7B6858]">
                 Manage your live Supabase database and storage bucket connectivity.
               </p>
             </div>
           </div>
 
           {/* Live Supabase Credentials Input */}
-          <div className="p-6 rounded-3xl bg-white border border-[#E8DFC8] space-y-5">
+          <div className="p-6 rounded-3xl bg-white border border-[#D6C8B8] space-y-5">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-              <h3 className="font-cinzel text-sm font-bold text-[#2C241D] flex items-center gap-2">
-                <Database className="w-4 h-4 text-[#8C531B]" />
+              <h3 className="font-cinzel text-sm font-bold text-[#2D241E] flex items-center gap-2">
+                <Database className="w-4 h-4 text-[#6B452D]" />
                 <span>Connected Supabase Project</span>
               </h3>
               <div className="flex items-center gap-2">
@@ -1123,46 +1123,46 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
             <form onSubmit={handleSaveSupabaseConfig} className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-end">
               <div className="sm:col-span-5 space-y-1">
-                <label className="text-xs font-bold uppercase text-stone-600">Supabase Project URL</label>
+                <label className="text-xs font-bold uppercase text-[#4A2F1F]">Supabase Project URL</label>
                 <input
                   type="text"
                   placeholder="https://xyzcompany.supabase.co"
                   value={supabaseUrlInput}
                   onChange={(e) => setSupabaseUrlInput(e.target.value)}
-                  className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs font-mono focus:ring-2 focus:ring-[#8C531B] focus:outline-none"
+                  className="w-full px-3.5 py-2 rounded-xl border border-[#D6C8B8] text-xs font-mono text-[#2D241E] focus:ring-2 focus:ring-[#6B452D] focus:outline-none"
                 />
               </div>
 
               <div className="sm:col-span-5 space-y-1">
-                <label className="text-xs font-bold uppercase text-stone-600">Supabase Anon Key</label>
+                <label className="text-xs font-bold uppercase text-[#4A2F1F]">Supabase Anon Key</label>
                 <input
                   type="password"
                   placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
                   value={supabaseKeyInput}
                   onChange={(e) => setSupabaseKeyInput(e.target.value)}
-                  className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs font-mono focus:ring-2 focus:ring-[#8C531B] focus:outline-none"
+                  className="w-full px-3.5 py-2 rounded-xl border border-[#D6C8B8] text-xs font-mono text-[#2D241E] focus:ring-2 focus:ring-[#6B452D] focus:outline-none"
                 />
               </div>
 
               <div className="sm:col-span-2 flex flex-col gap-2">
                 <button
                   type="submit"
-                  className="w-full py-2.5 rounded-xl bg-[#2C241D] hover:bg-stone-800 text-white text-xs font-semibold transition-colors"
+                  className="w-full py-2.5 rounded-xl bg-[#4A2F1F] hover:bg-[#3D2517] text-white text-xs font-semibold transition-colors"
                 >
                   Save & Connect
                 </button>
               </div>
             </form>
 
-            <div className="pt-3 border-t border-stone-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div className="pt-3 border-t border-[#D6C8B8] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                <p className="text-xs text-stone-500">
-                  Connected to: <span className="font-mono font-medium text-stone-700">{supabaseUrlInput || DEFAULT_SUPABASE_URL}</span>
+                <p className="text-xs text-[#7B6858]">
+                  Connected to: <span className="font-mono font-medium text-[#2D241E]">{supabaseUrlInput || DEFAULT_SUPABASE_URL}</span>
                 </p>
                 <button
                   type="button"
                   onClick={handleResetToDefaultSupabase}
-                  className="text-[11px] text-[#8C531B] underline hover:text-stone-900 transition-colors"
+                  className="text-[11px] text-[#6B452D] underline hover:text-[#4A2F1F] transition-colors"
                 >
                   Reset to Default Project
                 </button>
@@ -1172,7 +1172,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 type="button"
                 onClick={handleSeedPaintingsToSupabase}
                 disabled={isSeedingSupabase}
-                className="px-4 py-2 rounded-xl bg-[#FAF6EE] hover:bg-[#F2EADB] border border-[#E8DFC8] text-[#8C531B] text-xs font-semibold flex items-center gap-2 transition-all disabled:opacity-50"
+                className="px-4 py-2 rounded-xl bg-[#F7F1E7] hover:bg-[#E9DDCC] border border-[#D6C8B8] text-[#6B452D] text-xs font-semibold flex items-center gap-2 transition-all disabled:opacity-50"
               >
                 {isSeedingSupabase ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
                 <span>{isSeedingSupabase ? 'Syncing to Supabase...' : 'Push All Gallery Artworks to Supabase'}</span>
@@ -1185,16 +1185,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       {/* PAINTING ADD / EDIT MODAL */}
       {isPaintingModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm overflow-y-auto animate-in fade-in">
-          <div className="bg-[#FAF8F5] w-full max-w-2xl rounded-3xl shadow-2xl border border-[#E8DFC8] overflow-hidden my-auto flex flex-col max-h-[92vh]">
+          <div className="bg-[#F7F1E7] w-full max-w-2xl rounded-3xl shadow-2xl border border-[#D6C8B8] overflow-hidden my-auto flex flex-col max-h-[92vh]">
             
             {/* Modal Header */}
-            <div className="bg-[#2C241D] text-[#FAF6ED] px-6 py-4 flex items-center justify-between">
-              <h3 className="font-cinzel text-lg font-bold text-[#FDF6E2]">
+            <div className="bg-[#4A2F1F] text-[#F7F1E7] px-6 py-4 flex items-center justify-between">
+              <h3 className="font-cinzel text-lg font-bold text-[#F7F1E7]">
                 {editingPainting ? 'Edit Artwork Listing' : 'Add New Painting to Gallery'}
               </h3>
               <button 
                 onClick={() => setIsPaintingModalOpen(false)}
-                className="p-1 rounded-lg text-stone-400 hover:text-white"
+                className="p-1 rounded-lg text-[#E9DDCC] hover:text-white"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -1221,7 +1221,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
               {/* Name */}
               <div className="space-y-1">
-                <label className="text-xs font-bold uppercase tracking-wider text-stone-700">
+                <label className="text-xs font-bold uppercase tracking-wider text-[#4A2F1F]">
                   Painting Title <span className="text-rose-600">*</span>
                 </label>
                 <input
@@ -1230,20 +1230,20 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   value={formName || ''}
                   onChange={(e) => setFormName(e.target.value)}
                   placeholder="e.g., Shrinathji Lotus Pichwai with 24K Gold Leaf"
-                  className="w-full px-4 py-2.5 rounded-xl border border-stone-300 bg-white text-sm focus:ring-2 focus:ring-[#8C531B] focus:outline-none"
+                  className="w-full px-4 py-2.5 rounded-xl border border-[#D6C8B8] bg-white text-sm text-[#2D241E] focus:ring-2 focus:ring-[#6B452D] focus:outline-none"
                 />
               </div>
 
               {/* Type, Size, Price, Status */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-xs font-bold uppercase tracking-wider text-stone-700">
+                  <label className="text-xs font-bold uppercase tracking-wider text-[#4A2F1F]">
                     Medium / Category
                   </label>
                   <select
                     value={formType || 'Pichwai'}
                     onChange={(e) => setFormType(e.target.value as PaintingType)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 bg-white text-sm focus:ring-2 focus:ring-[#8C531B] focus:outline-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#D6C8B8] bg-white text-sm text-[#2D241E] focus:ring-2 focus:ring-[#6B452D] focus:outline-none"
                   >
                     <option value="Pichwai">Pichwai</option>
                     <option value="Sketch">Realistic Sketch</option>
@@ -1256,7 +1256,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-bold uppercase tracking-wider text-stone-700">
+                  <label className="text-xs font-bold uppercase tracking-wider text-[#4A2F1F]">
                     Dimensions (Size) <span className="text-rose-600">*</span>
                   </label>
                   <input
@@ -1265,12 +1265,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     value={formSize || ''}
                     onChange={(e) => setFormSize(e.target.value)}
                     placeholder="e.g., 24 x 36 inches"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 bg-white text-sm focus:ring-2 focus:ring-[#8C531B] focus:outline-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#D6C8B8] bg-white text-sm text-[#2D241E] focus:ring-2 focus:ring-[#6B452D] focus:outline-none"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-bold uppercase tracking-wider text-stone-700">
+                  <label className="text-xs font-bold uppercase tracking-wider text-[#4A2F1F]">
                     Price in INR (₹) <span className="text-rose-600">*</span>
                   </label>
                   <input
@@ -1279,18 +1279,18 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     min="500"
                     value={formPrice ?? 0}
                     onChange={(e) => setFormPrice(Number(e.target.value))}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 bg-white text-sm focus:ring-2 focus:ring-[#8C531B] focus:outline-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#D6C8B8] bg-white text-sm text-[#2D241E] focus:ring-2 focus:ring-[#6B452D] focus:outline-none"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-bold uppercase tracking-wider text-stone-700">
+                  <label className="text-xs font-bold uppercase tracking-wider text-[#4A2F1F]">
                     Availability Status
                   </label>
                   <select
                     value={formStatus || 'available'}
                     onChange={(e) => setFormStatus(e.target.value as PaintingStatus)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 bg-white text-sm focus:ring-2 focus:ring-[#8C531B] focus:outline-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#D6C8B8] bg-white text-sm text-[#2D241E] focus:ring-2 focus:ring-[#6B452D] focus:outline-none"
                   >
                     <option value="available">Available (Ready for sale)</option>
                     <option value="sold">Sold (Archived / In private collection)</option>
@@ -1299,17 +1299,17 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               </div>
 
               {/* Multi-Photo & High-Res Artwork Images Section */}
-              <div className="space-y-3 p-4 rounded-2xl bg-stone-50 border border-stone-200">
+              <div className="space-y-3 p-4 rounded-2xl bg-white border border-[#D6C8B8]">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div>
-                    <label className="text-xs font-bold uppercase tracking-wider text-stone-800 flex items-center gap-2">
-                      <Images className="w-4 h-4 text-[#8C531B]" />
+                    <label className="text-xs font-bold uppercase tracking-wider text-[#4A2F1F] flex items-center gap-2">
+                      <Images className="w-4 h-4 text-[#6B452D]" />
                       <span>Artwork Photos & Multi-Angle Gallery</span>
-                      <span className="text-[11px] font-normal text-stone-500">
+                      <span className="text-[11px] font-normal text-[#7B6858]">
                         ({formImages.length} {formImages.length === 1 ? 'photo' : 'photos'} added)
                       </span>
                     </label>
-                    <p className="text-[11px] text-stone-500">
+                    <p className="text-[11px] text-[#7B6858]">
                       Upload multiple high-res photos (close-up details, angles, framing). Click the star to set the primary cover photo.
                     </p>
                   </div>
@@ -1319,7 +1319,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     type="button"
                     disabled={isUploadingImage}
                     onClick={() => paintingFileInputRef.current?.click()}
-                    className="px-3.5 py-1.5 rounded-xl bg-[#8C531B] hover:bg-[#734314] text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm disabled:opacity-50 shrink-0 cursor-pointer"
+                    className="px-3.5 py-1.5 rounded-xl bg-[#6B452D] hover:bg-[#4A2F1F] text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm disabled:opacity-50 shrink-0 cursor-pointer"
                   >
                     {isUploadingImage ? (
                       <>
@@ -1357,12 +1357,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       }
                     }}
                     placeholder="Paste image URL (https://...) and click Add Photo"
-                    className="flex-1 px-3.5 py-2 rounded-xl border border-stone-300 bg-white text-xs font-mono focus:ring-2 focus:ring-[#8C531B] focus:outline-none"
+                    className="flex-1 px-3.5 py-2 rounded-xl border border-[#D6C8B8] bg-white text-xs font-mono text-[#2D241E] focus:ring-2 focus:ring-[#6B452D] focus:outline-none"
                   />
                   <button
                     type="button"
                     onClick={handleAddImageUrl}
-                    className="px-3.5 py-2 rounded-xl bg-stone-200 hover:bg-stone-300 text-stone-800 text-xs font-semibold shrink-0"
+                    className="px-3.5 py-2 rounded-xl bg-[#E9DDCC] hover:bg-[#D6C8B8] text-[#4A2F1F] text-xs font-semibold shrink-0"
                   >
                     Add URL
                   </button>
@@ -1377,10 +1377,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         return (
                           <div
                             key={index}
-                            className={`group relative rounded-xl overflow-hidden border-2 transition-all bg-stone-900 aspect-4/3 flex flex-col justify-between ${
+                            className={`group relative rounded-xl overflow-hidden border-2 transition-all bg-[#2D241E] aspect-4/3 flex flex-col justify-between ${
                               isPrimary 
-                                ? 'border-[#8C531B] ring-2 ring-[#8C531B]/30' 
-                                : 'border-stone-200 hover:border-stone-400'
+                                ? 'border-[#A8753F] ring-2 ring-[#A8753F]/40' 
+                                : 'border-[#D6C8B8] hover:border-[#6B452D]'
                             }`}
                           >
                             <img
@@ -1392,8 +1392,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                             {/* Top Badges & Remove Button */}
                             <div className="absolute top-1.5 left-1.5 right-1.5 flex items-center justify-between pointer-events-auto">
                               {isPrimary ? (
-                                <span className="px-2 py-0.5 rounded-md bg-[#8C531B] text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 shadow-md">
-                                  <Star className="w-3 h-3 fill-amber-300 text-amber-300" />
+                                <span className="px-2 py-0.5 rounded-md bg-[#6B452D] text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 shadow-md">
+                                  <Star className="w-3 h-3 fill-[#E9DDCC] text-[#E9DDCC]" />
                                   <span>Cover Photo</span>
                                 </span>
                               ) : (
@@ -1419,9 +1419,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                                 <button
                                   type="button"
                                   onClick={() => handleSetPrimaryImage(imgUrl)}
-                                  className="w-full py-1 px-2 rounded-lg bg-black/80 hover:bg-[#8C531B] text-white text-[10px] font-semibold tracking-wider uppercase transition-colors flex items-center justify-center gap-1 shadow-md"
+                                  className="w-full py-1 px-2 rounded-lg bg-black/80 hover:bg-[#6B452D] text-white text-[10px] font-semibold tracking-wider uppercase transition-colors flex items-center justify-center gap-1 shadow-md"
                                 >
-                                  <Star className="w-3 h-3 text-amber-300" />
+                                  <Star className="w-3 h-3 text-[#E9DDCC]" />
                                   <span>Set as Cover</span>
                                 </button>
                               </div>
@@ -1434,18 +1434,18 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 ) : (
                   <div 
                     onClick={() => paintingFileInputRef.current?.click()}
-                    className="p-6 rounded-xl border-2 border-dashed border-stone-300 bg-white text-center cursor-pointer hover:border-[#8C531B] transition-colors"
+                    className="p-6 rounded-xl border-2 border-dashed border-[#D6C8B8] bg-[#F7F1E7]/50 text-center cursor-pointer hover:border-[#6B452D] transition-colors"
                   >
-                    <Upload className="w-6 h-6 mx-auto text-stone-400 mb-1" />
-                    <div className="text-xs font-semibold text-stone-700">Click to upload photos or drag and drop</div>
-                    <div className="text-[11px] text-stone-400">Supports PNG, JPG, WebP (Multiple files supported)</div>
+                    <Upload className="w-6 h-6 mx-auto text-[#7B6858] mb-1" />
+                    <div className="text-xs font-semibold text-[#4A2F1F]">Click to upload photos or drag and drop</div>
+                    <div className="text-[11px] text-[#7B6858]">Supports PNG, JPG, WebP (Multiple files supported)</div>
                   </div>
                 )}
               </div>
 
               {/* Medium Details */}
               <div className="space-y-1">
-                <label className="text-xs font-bold uppercase tracking-wider text-stone-700">
+                <label className="text-xs font-bold uppercase tracking-wider text-[#4A2F1F]">
                   Materials & Technique Details
                 </label>
                 <input
@@ -1453,13 +1453,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   value={formMediumDetails || ''}
                   onChange={(e) => setFormMediumDetails(e.target.value)}
                   placeholder="e.g. Natural Mineral Pigments & 24K Gold Leaf on Handwoven Fabric"
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 bg-white text-sm focus:ring-2 focus:ring-[#8C531B] focus:outline-none"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#D6C8B8] bg-white text-sm text-[#2D241E] focus:ring-2 focus:ring-[#6B452D] focus:outline-none"
                 />
               </div>
 
               {/* Description */}
               <div className="space-y-1">
-                <label className="text-xs font-bold uppercase tracking-wider text-stone-700">
+                <label className="text-xs font-bold uppercase tracking-wider text-[#4A2F1F]">
                   Artwork Description
                 </label>
                 <textarea
@@ -1467,7 +1467,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   value={formDescription || ''}
                   onChange={(e) => setFormDescription(e.target.value)}
                   placeholder="Describe the artistic inspiration, spiritual significance, and craftsmanship..."
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 bg-white text-sm focus:ring-2 focus:ring-[#8C531B] focus:outline-none"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#D6C8B8] bg-white text-sm text-[#2D241E] focus:ring-2 focus:ring-[#6B452D] focus:outline-none"
                 ></textarea>
               </div>
 
@@ -1478,19 +1478,19 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   id="featured-checkbox"
                   checked={formFeatured}
                   onChange={(e) => setFormFeatured(e.target.checked)}
-                  className="w-4 h-4 text-[#8C531B] rounded border-stone-300 focus:ring-[#8C531B]"
+                  className="w-4 h-4 text-[#6B452D] rounded border-[#D6C8B8] focus:ring-[#6B452D]"
                 />
-                <label htmlFor="featured-checkbox" className="text-xs font-medium text-stone-800 cursor-pointer">
+                <label htmlFor="featured-checkbox" className="text-xs font-medium text-[#2D241E] cursor-pointer">
                   Feature prominently on gallery showcase top bar
                 </label>
               </div>
 
               {/* Modal Buttons */}
-              <div className="pt-4 border-t border-stone-200 flex items-center justify-end gap-3">
+              <div className="pt-4 border-t border-[#D6C8B8] flex items-center justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setIsPaintingModalOpen(false)}
-                  className="px-4 py-2.5 rounded-xl bg-stone-200 hover:bg-stone-300 text-stone-800 text-xs font-semibold"
+                  className="px-4 py-2.5 rounded-xl bg-[#E9DDCC] hover:bg-[#D6C8B8] text-[#4A2F1F] text-xs font-semibold"
                 >
                   Cancel
                 </button>
@@ -1498,7 +1498,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 <button
                   type="submit"
                   disabled={isSubmittingPainting}
-                  className="px-6 py-2.5 rounded-xl bg-[#8C531B] hover:bg-[#734314] text-white text-xs font-semibold shadow-sm"
+                  className="px-6 py-2.5 rounded-xl bg-[#6B452D] hover:bg-[#4A2F1F] text-white text-xs font-semibold shadow-sm"
                 >
                   {isSubmittingPainting ? 'Saving Artwork...' : editingPainting ? 'Update Painting' : 'Publish Painting'}
                 </button>
@@ -1515,14 +1515,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           <div className="relative max-w-4xl max-h-[90vh] flex flex-col items-center">
             <button
               onClick={() => setPreviewReferenceImage(null)}
-              className="absolute -top-10 right-0 text-white hover:text-amber-400 p-1"
+              className="absolute -top-10 right-0 text-white hover:text-[#E9DDCC] p-1"
             >
               <X className="w-6 h-6" />
             </button>
             <img
               src={previewReferenceImage}
               alt="Client Reference Full Preview"
-              className="max-h-[80vh] max-w-full object-contain rounded-xl shadow-2xl border-2 border-stone-700"
+              className="max-h-[80vh] max-w-full object-contain rounded-xl shadow-2xl border-2 border-[#5C3A24]"
             />
             <div className="mt-3 flex items-center gap-3">
               <a
@@ -1530,14 +1530,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 download="client_reference_photo.jpg"
-                className="px-4 py-2 rounded-xl bg-[#C88A3B] text-black font-semibold text-xs flex items-center gap-1.5 shadow-md"
+                className="px-4 py-2 rounded-xl bg-[#A8753F] hover:bg-[#6B452D] text-white font-semibold text-xs flex items-center gap-1.5 shadow-md transition-colors"
               >
                 <Download className="w-4 h-4" />
                 <span>Open / Download Reference Photo</span>
               </a>
               <button
                 onClick={() => setPreviewReferenceImage(null)}
-                className="px-4 py-2 rounded-xl bg-stone-800 text-white text-xs"
+                className="px-4 py-2 rounded-xl bg-[#4A2F1F] hover:bg-[#3D2517] text-[#E9DDCC] text-xs transition-colors"
               >
                 Close Viewer
               </button>

@@ -54,11 +54,11 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
   };
 
   return (
-    <div className="max-w-md w-full mx-auto my-8 p-8 bg-white rounded-3xl border border-[#E8DFC8] shadow-xl space-y-6 relative">
+    <div className="max-w-md w-full mx-auto my-8 p-8 bg-white rounded-3xl border border-[#D6C8B8] shadow-xl space-y-6 relative">
       {onClose && (
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 text-stone-400 hover:text-stone-700 transition-colors"
+          className="absolute top-4 right-4 p-2 text-[#7B6858] hover:text-[#2D241E] transition-colors"
           aria-label="Close"
         >
           <X className="w-5 h-5" />
@@ -66,13 +66,13 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
       )}
 
       <div className="text-center space-y-2">
-        <div className="w-14 h-14 rounded-2xl bg-[#2C241D] text-[#E2B774] flex items-center justify-center mx-auto shadow-md">
+        <div className="w-14 h-14 rounded-2xl bg-[#4A2F1F] text-[#E9DDCC] flex items-center justify-center mx-auto shadow-md">
           <Lock className="w-7 h-7" />
         </div>
-        <h2 className="font-cinzel text-2xl font-bold text-[#2C241D]">
+        <h2 className="font-cinzel text-2xl font-bold text-[#2D241E]">
           Artist Control Panel
         </h2>
-        <p className="text-xs text-[#7A6A5C]">
+        <p className="text-xs text-[#7B6858]">
           Protected route for artist Vishal Baru to manage gallery catalog, commission leads, and database.
         </p>
       </div>
@@ -89,7 +89,7 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-1">
-          <label className="text-xs font-bold uppercase tracking-wider text-stone-600">
+          <label className="text-xs font-bold uppercase tracking-wider text-[#4A2F1F]">
             Artist Email
           </label>
           <input
@@ -98,14 +98,14 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2.5 rounded-xl border border-stone-300 text-sm focus:ring-2 focus:ring-[#8C531B] focus:outline-none"
+            className="w-full px-4 py-2.5 rounded-xl border border-[#D6C8B8] text-sm text-[#2D241E] focus:ring-2 focus:ring-[#6B452D] focus:outline-none"
             placeholder="artist@example.com"
           />
         </div>
 
         <div className="space-y-1">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-bold uppercase tracking-wider text-stone-600">
+            <label className="text-xs font-bold uppercase tracking-wider text-[#4A2F1F]">
               Password / Passcode
             </label>
           </div>
@@ -116,7 +116,7 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
             placeholder="Enter passcode"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2.5 rounded-xl border border-stone-300 text-sm focus:ring-2 focus:ring-[#8C531B] focus:outline-none"
+            className="w-full px-4 py-2.5 rounded-xl border border-[#D6C8B8] text-sm text-[#2D241E] focus:ring-2 focus:ring-[#6B452D] focus:outline-none"
           />
         </div>
 
@@ -124,7 +124,7 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
           id="admin-login-submit"
           type="submit"
           disabled={isLoading}
-          className="w-full py-3 rounded-xl bg-[#8C531B] hover:bg-[#734314] text-white font-semibold text-sm shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+          className="w-full py-3 rounded-xl bg-[#6B452D] hover:bg-[#4A2F1F] text-white font-semibold text-sm shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
         >
           <Key className="w-4 h-4" />
           <span>{isLoading ? 'Verifying...' : 'Sign In to C-Panel'}</span>
@@ -132,10 +132,10 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
       </form>
 
       {onClose && (
-        <div className="pt-4 border-t border-stone-200 text-center">
+        <div className="pt-4 border-t border-[#D6C8B8] text-center">
           <button
             onClick={onClose}
-            className="text-xs text-stone-500 hover:text-stone-800"
+            className="text-xs text-[#7B6858] hover:text-[#2D241E]"
           >
             ← Return to Public Gallery
           </button>

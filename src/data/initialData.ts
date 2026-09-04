@@ -27,6 +27,11 @@ export const INITIAL_PAINTINGS: Painting[] = [
     type: "Pichwai",
     status: "available",
     image_url: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1000&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1582561074719-752d5b62b10a?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1579783928621-7a13d66a62d1?auto=format&fit=crop&w=1000&q=80"
+    ],
     created_at: "2024-02-15T10:00:00Z",
     medium_details: "Natural Stone Pigments & Gold Leaf on Handwoven Cotton Fabric",
     year: 2024,
@@ -41,6 +46,10 @@ export const INITIAL_PAINTINGS: Painting[] = [
     type: "Sketch",
     status: "available",
     image_url: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1000&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=1000&q=80"
+    ],
     created_at: "2024-01-20T14:30:00Z",
     medium_details: "Nitram Charcoal, Staedtler Graphite on 300 GSM Fabriano Archival Paper",
     year: 2024,
@@ -55,6 +64,10 @@ export const INITIAL_PAINTINGS: Painting[] = [
     type: "Pichwai",
     status: "available",
     image_url: "https://images.unsplash.com/photo-1582561074719-752d5b62b10a?auto=format&fit=crop&w=1000&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1582561074719-752d5b62b10a?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1000&q=80"
+    ],
     created_at: "2024-03-01T09:15:00Z",
     medium_details: "Natural Mineral Colors, Gum Arabic on Sized Silk-Cotton Fabric",
     year: 2024,
@@ -69,6 +82,9 @@ export const INITIAL_PAINTINGS: Painting[] = [
     type: "Watercolor",
     status: "sold",
     image_url: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=1000&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=1000&q=80"
+    ],
     created_at: "2023-11-12T11:00:00Z",
     medium_details: "Winsor & Newton Professional Watercolors on 100% Cotton Arches 300 GSM Rough",
     year: 2023,
@@ -83,6 +99,10 @@ export const INITIAL_PAINTINGS: Painting[] = [
     type: "Sketch",
     status: "available",
     image_url: "https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=1000&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1000&q=80"
+    ],
     created_at: "2024-02-28T16:45:00Z",
     medium_details: "Willow Charcoal and White Conte on Canson Toned Tan Archival Sheet",
     year: 2024,
@@ -97,6 +117,9 @@ export const INITIAL_PAINTINGS: Painting[] = [
     type: "Watercolor",
     status: "available",
     image_url: "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?auto=format&fit=crop&w=1000&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?auto=format&fit=crop&w=1000&q=80"
+    ],
     created_at: "2024-01-10T12:00:00Z",
     medium_details: "Handmade Artists' Watercolors & Waterproof Japanese Ink on Saunders Waterford",
     year: 2024,
@@ -111,6 +134,9 @@ export const INITIAL_PAINTINGS: Painting[] = [
     type: "Rajput Miniature",
     status: "sold",
     image_url: "https://images.unsplash.com/photo-1579783928621-7a13d66a62d1?auto=format&fit=crop&w=1000&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1579783928621-7a13d66a62d1?auto=format&fit=crop&w=1000&q=80"
+    ],
     created_at: "2023-12-05T08:30:00Z",
     medium_details: "Stone Pigments with Squirrel Hair Brushes on Wasli Handmade Paper",
     year: 2023,
@@ -125,6 +151,9 @@ export const INITIAL_PAINTINGS: Painting[] = [
     type: "Acrylic",
     status: "available",
     image_url: "https://images.unsplash.com/photo-1579541814924-49fef17c5be5?auto=format&fit=crop&w=1000&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1579541814924-49fef17c5be5?auto=format&fit=crop&w=1000&q=80"
+    ],
     created_at: "2024-02-05T15:20:00Z",
     medium_details: "Heavy Body Acrylics & Glazing Oils on Stretched Linen Canvas",
     year: 2024,

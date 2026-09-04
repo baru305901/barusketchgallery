@@ -106,27 +106,27 @@ export const PaintingDetailModal: React.FC<PaintingDetailModalProps> = ({
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-6 bg-black/80 backdrop-blur-sm overflow-y-auto animate-in fade-in duration-200">
-        <div className="bg-[#FDFBF7] text-[#1A1A1A] w-full max-w-5xl rounded-2xl shadow-2xl border border-[#1A1A1A]/20 overflow-hidden my-auto flex flex-col md:flex-row relative max-h-[92vh]">
+        <div className="bg-[#F7F1E7] text-[#2D241E] w-full max-w-5xl rounded-2xl shadow-2xl border border-[#D6C8B8] overflow-hidden my-auto flex flex-col md:flex-row relative max-h-[92vh]">
           
           {/* Close button */}
           <button 
             onClick={onClose}
-            className="absolute top-4 right-4 z-20 p-2 rounded-full bg-white/90 hover:bg-white text-[#1A1A1A] shadow-md border border-[#1A1A1A]/10 transition-all duration-200 focus:outline-none"
+            className="absolute top-4 right-4 z-20 p-2 rounded-full bg-white/95 hover:bg-white text-[#2D241E] shadow-md border border-[#D6C8B8] transition-all duration-200 focus:outline-none"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />
           </button>
 
           {/* Left Column: High-Res Painting Image Preview & Multi-Image Gallery */}
-          <div className="md:w-1/2 bg-[#1A1A1A] flex flex-col items-center justify-between relative p-4 sm:p-5 overflow-hidden min-h-[380px] md:min-h-[520px]">
+          <div className="md:w-1/2 bg-[#2D241E] flex flex-col items-center justify-between relative p-4 sm:p-5 overflow-hidden min-h-[380px] md:min-h-[520px]">
             
             {/* Top Indicator: Photo counter & authenticity */}
-            <div className="w-full flex items-center justify-between z-10 text-[10px] font-sans-ui text-white/80 pb-2">
-              <span className="bg-black/60 backdrop-blur-md px-2.5 py-1 rounded border border-white/10 flex items-center gap-1.5 font-medium">
-                <Images className="w-3.5 h-3.5 text-amber-300" />
+            <div className="w-full flex items-center justify-between z-10 text-[10px] font-sans-ui text-white/90 pb-2">
+              <span className="bg-black/60 backdrop-blur-md px-2.5 py-1 rounded border border-white/15 flex items-center gap-1.5 font-medium">
+                <Images className="w-3.5 h-3.5 text-[#E9DDCC]" />
                 <span>Photo {activeImageIndex + 1} of {imagesList.length}</span>
               </span>
-              <span className="text-[10px] uppercase tracking-wider bg-[#5A5A40] text-[#FDFBF7] px-2.5 py-1 rounded font-cinzel">
+              <span className="text-[10px] uppercase tracking-wider bg-[#6B452D] text-[#FFFFFF] px-2.5 py-1 rounded font-cinzel font-semibold shadow-xs">
                 Authentic Vishal Baru Original
               </span>
             </div>
@@ -189,7 +189,7 @@ export const PaintingDetailModal: React.FC<PaintingDetailModalProps> = ({
                       }}
                       className={`relative shrink-0 w-13 h-13 rounded-lg overflow-hidden border-2 transition-all duration-150 ${
                         activeImageIndex === idx 
-                          ? 'border-amber-400 ring-2 ring-amber-400/40 scale-105 opacity-100' 
+                          ? 'border-[#A8753F] ring-2 ring-[#A8753F]/40 scale-105 opacity-100' 
                           : 'border-white/20 opacity-60 hover:opacity-100 hover:border-white/50'
                       }`}
                       aria-label={`View photo ${idx + 1}`}
@@ -200,7 +200,7 @@ export const PaintingDetailModal: React.FC<PaintingDetailModalProps> = ({
                         className="w-full h-full object-cover" 
                       />
                       {activeImageIndex === idx && (
-                        <div className="absolute inset-0 bg-amber-400/10 pointer-events-none" />
+                        <div className="absolute inset-0 bg-[#A8753F]/15 pointer-events-none" />
                       )}
                     </button>
                   ))}
@@ -211,19 +211,19 @@ export const PaintingDetailModal: React.FC<PaintingDetailModalProps> = ({
           </div>
 
           {/* Right Column: Detailed Artwork Information & Purchase CTA */}
-          <div className="md:w-1/2 p-6 sm:p-8 overflow-y-auto flex flex-col justify-between space-y-6 font-sans-ui">
+          <div className="md:w-1/2 p-6 sm:p-8 overflow-y-auto flex flex-col justify-between space-y-6 font-sans-ui bg-[#F7F1E7]">
             
             {/* Top metadata & Badges */}
             <div className="space-y-4">
               <div className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-[#F5F2ED] text-[#5A5A40] border border-[#1A1A1A]/10">
+                  <span className="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-[#E9DDCC] text-[#4A2F1F] border border-[#D6C8B8] rounded-sm">
                     {painting.type}
                   </span>
                   
                   {painting.featured && (
-                    <span className="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-[#1A1A1A] text-[#FDFBF7] flex items-center gap-1">
-                      <Sparkles className="w-3 h-3 text-[#DCD6C8]" />
+                    <span className="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-[#6B452D] text-[#FFFFFF] flex items-center gap-1 rounded-sm shadow-xs">
+                      <Sparkles className="w-3 h-3 text-[#E9DDCC]" />
                       Featured Masterpiece
                     </span>
                   )}
@@ -245,59 +245,59 @@ export const PaintingDetailModal: React.FC<PaintingDetailModalProps> = ({
               </div>
 
               {/* Painting Title */}
-              <h2 className="font-cinzel text-2xl sm:text-3xl font-bold text-[#1A1A1A] leading-tight">
+              <h2 className="font-cinzel text-2xl sm:text-3xl font-bold text-[#2D241E] leading-tight">
                 {painting.name}
               </h2>
 
-              <div className="flex items-center gap-2 text-xs text-[#1A1A1A]/70 uppercase tracking-wider">
+              <div className="flex items-center gap-2 text-xs text-[#4A2F1F] uppercase tracking-wider">
                 <span>Artist:</span>
-                <span className="font-bold text-[#1A1A1A]">Vishal Baru</span>
+                <span className="font-bold text-[#6B452D]">Vishal Baru</span>
                 <span className="opacity-40">•</span>
                 <span>Beawar, Rajasthan</span>
               </div>
 
               {/* Price Display */}
-              <div className="p-4 rounded-xl bg-[#F5F2ED] border border-[#1A1A1A]/10 flex items-center justify-between">
+              <div className="p-4 rounded-xl bg-[#E9DDCC]/60 border border-[#D6C8B8] flex items-center justify-between">
                 <div>
-                  <div className="text-[10px] uppercase tracking-widest text-[#5A5A40] font-bold">
+                  <div className="text-[10px] uppercase tracking-widest text-[#6B452D] font-bold">
                     Original Artwork Price
                   </div>
-                  <div className="text-2xl sm:text-3xl font-bold text-[#1A1A1A] font-cinzel">
+                  <div className="text-2xl sm:text-3xl font-bold text-[#2D241E] font-cinzel">
                     ₹{painting.price.toLocaleString('en-IN')}
                   </div>
                 </div>
 
                 <div className="text-right">
-                  <div className="text-[10px] uppercase tracking-wider text-[#1A1A1A]/60">Packing & Courier</div>
-                  <div className="text-xs font-semibold text-[#2F4F4F]">Free Insured Delivery in India</div>
+                  <div className="text-[10px] uppercase tracking-wider text-[#7B6858]">Packing & Courier</div>
+                  <div className="text-xs font-semibold text-[#4A2F1F]">Free Insured Delivery in India</div>
                 </div>
               </div>
 
               {/* Specifications Grid */}
               <div className="grid grid-cols-2 gap-3 py-1">
-                <div className="p-3 rounded-lg bg-white border border-[#1A1A1A]/10">
-                  <div className="text-[10px] uppercase tracking-wider text-[#1A1A1A]/60 flex items-center gap-1 mb-0.5">
-                    <Maximize2 className="w-3 h-3 text-[#5A5A40]" />
+                <div className="p-3 rounded-lg bg-white border border-[#D6C8B8]">
+                  <div className="text-[10px] uppercase tracking-wider text-[#7B6858] flex items-center gap-1 mb-0.5">
+                    <Maximize2 className="w-3 h-3 text-[#6B452D]" />
                     <span>Canvas Dimensions</span>
                   </div>
-                  <div className="font-bold text-xs text-[#1A1A1A] font-cinzel">{painting.size}</div>
+                  <div className="font-bold text-xs text-[#2D241E] font-cinzel">{painting.size}</div>
                 </div>
 
-                <div className="p-3 rounded-lg bg-white border border-[#1A1A1A]/10">
-                  <div className="text-[10px] uppercase tracking-wider text-[#1A1A1A]/60 flex items-center gap-1 mb-0.5">
-                    <Palette className="w-3 h-3 text-[#5A5A40]" />
+                <div className="p-3 rounded-lg bg-white border border-[#D6C8B8]">
+                  <div className="text-[10px] uppercase tracking-wider text-[#7B6858] flex items-center gap-1 mb-0.5">
+                    <Palette className="w-3 h-3 text-[#6B452D]" />
                     <span>Art Form / Medium</span>
                   </div>
-                  <div className="font-bold text-xs text-[#1A1A1A]">{painting.type}</div>
+                  <div className="font-bold text-xs text-[#2D241E]">{painting.type}</div>
                 </div>
 
                 {painting.medium_details && (
-                  <div className="col-span-2 p-3 rounded-lg bg-white border border-[#1A1A1A]/10">
-                    <div className="text-[10px] uppercase tracking-wider text-[#1A1A1A]/60 flex items-center gap-1 mb-0.5">
-                      <Layers className="w-3 h-3 text-[#5A5A40]" />
+                  <div className="col-span-2 p-3 rounded-lg bg-white border border-[#D6C8B8]">
+                    <div className="text-[10px] uppercase tracking-wider text-[#7B6858] flex items-center gap-1 mb-0.5">
+                      <Layers className="w-3 h-3 text-[#6B452D]" />
                       <span>Materials & Pigments</span>
                     </div>
-                    <div className="text-xs text-[#1A1A1A]/80 leading-relaxed font-cormorant text-base italic">
+                    <div className="text-xs text-[#4A2F1F] leading-relaxed font-cormorant text-base italic">
                       {painting.medium_details}
                     </div>
                   </div>
@@ -306,45 +306,45 @@ export const PaintingDetailModal: React.FC<PaintingDetailModalProps> = ({
 
               {/* Description */}
               <div className="space-y-1.5">
-                <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#5A5A40]">
+                <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6B452D]">
                   Artwork Description
                 </h4>
-                <p className="text-sm text-[#1A1A1A]/80 leading-relaxed font-cormorant text-lg italic">
+                <p className="text-sm text-[#4A2F1F] leading-relaxed font-cormorant text-lg italic">
                   "{painting.description}"
                 </p>
               </div>
 
               {/* Authenticity & Shipping badges */}
-              <div className="space-y-2 pt-2 border-t border-[#1A1A1A]/10">
-                <div className="flex items-center gap-2 text-xs text-[#1A1A1A]/80">
-                  <Award className="w-4 h-4 text-[#5A5A40]" />
+              <div className="space-y-2 pt-2 border-t border-[#D6C8B8]">
+                <div className="flex items-center gap-2 text-xs text-[#4A2F1F]">
+                  <Award className="w-4 h-4 text-[#6B452D]" />
                   <span>Includes Physical Signed Certificate of Authenticity</span>
                 </div>
-                <div className="flex items-center gap-2 text-xs text-[#1A1A1A]/80">
-                  <Truck className="w-4 h-4 text-[#5A5A40]" />
+                <div className="flex items-center gap-2 text-xs text-[#4A2F1F]">
+                  <Truck className="w-4 h-4 text-[#6B452D]" />
                   <span>Dispatched with museum-grade wooden protection casing</span>
                 </div>
               </div>
             </div>
 
             {/* Action Buttons Section */}
-            <div className="space-y-3 pt-4 border-t border-[#1A1A1A]/10">
+            <div className="space-y-3 pt-4 border-t border-[#D6C8B8]">
               
-              {/* PRIMARY ACTION: BUY NOW via WhatsApp (As specified in requirement 2.1) */}
+              {/* PRIMARY ACTION: BUY NOW via WhatsApp */}
               {isAvailable ? (
                 <a
                   id="painting-buy-now-whatsapp-btn"
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-[#1A1A1A] hover:bg-[#5A5A40] text-[#FDFBF7] font-semibold text-xs uppercase tracking-[0.2em] transition-all duration-200 shadow-xs"
+                  className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-[#6B452D] hover:bg-[#4A2F1F] text-[#FFFFFF] font-semibold text-xs uppercase tracking-[0.2em] transition-all duration-200 shadow-xs rounded-md"
                 >
-                  <MessageCircle className="w-4 h-4 text-emerald-400" />
+                  <MessageCircle className="w-4 h-4 text-emerald-300" />
                   <span>Buy Now via WhatsApp (+91 8000917547)</span>
                 </a>
               ) : (
                 <div className="space-y-2">
-                  <div className="w-full py-3 px-4 bg-[#F5F2ED] text-[#1A1A1A]/70 font-medium text-center text-xs uppercase tracking-wider">
+                  <div className="w-full py-3 px-4 bg-[#E9DDCC] text-[#4A2F1F] font-semibold text-center text-xs uppercase tracking-wider rounded-md border border-[#D6C8B8]">
                     This original piece is currently in a private collection.
                   </div>
                   {onInquireCustom && (
@@ -353,7 +353,7 @@ export const PaintingDetailModal: React.FC<PaintingDetailModalProps> = ({
                         onClose();
                         onInquireCustom(painting);
                       }}
-                      className="w-full py-3 px-4 bg-[#1A1A1A] hover:bg-[#5A5A40] text-white font-semibold text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-2 transition-colors"
+                      className="w-full py-3 px-4 bg-[#6B452D] hover:bg-[#4A2F1F] text-white font-semibold text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-2 transition-colors rounded-md shadow-xs"
                     >
                       <span>Commission a Similar Custom Painting</span>
                     </button>
@@ -369,7 +369,7 @@ export const PaintingDetailModal: React.FC<PaintingDetailModalProps> = ({
                       onClose();
                       onInquireCustom(painting);
                     }}
-                    className="flex-1 py-2.5 px-3 border border-[#1A1A1A]/20 hover:border-[#1A1A1A] text-[#1A1A1A] text-xs uppercase tracking-wider font-semibold transition-colors flex items-center justify-center gap-1.5"
+                    className="flex-1 py-2.5 px-3 border border-[#D6C8B8] hover:border-[#6B452D] text-[#4A2F1F] hover:bg-[#E9DDCC]/50 text-xs uppercase tracking-wider font-semibold transition-colors flex items-center justify-center gap-1.5 rounded-md"
                   >
                     <span>Custom Size Inquiry</span>
                   </button>
@@ -377,7 +377,7 @@ export const PaintingDetailModal: React.FC<PaintingDetailModalProps> = ({
 
                 <button
                   onClick={handleShare}
-                  className="p-2.5 border border-[#1A1A1A]/20 hover:border-[#1A1A1A] text-[#1A1A1A] transition-colors"
+                  className="p-2.5 border border-[#D6C8B8] hover:border-[#6B452D] text-[#4A2F1F] hover:bg-[#E9DDCC]/50 transition-colors rounded-md"
                   title="Share painting link"
                 >
                   {isCopied ? <Check className="w-4 h-4 text-emerald-600" /> : <Share2 className="w-4 h-4" />}
@@ -386,15 +386,15 @@ export const PaintingDetailModal: React.FC<PaintingDetailModalProps> = ({
                 {/* Developer Future Payment Gateway Toggle */}
                 <button
                   onClick={() => setShowFuturePayment(true)}
-                  className="p-2.5 border border-[#1A1A1A]/20 hover:bg-[#F5F2ED] text-[#1A1A1A] transition-colors flex items-center gap-1 text-xs uppercase tracking-wider text-[10px]"
+                  className="p-2.5 border border-[#D6C8B8] hover:bg-[#E9DDCC]/50 text-[#4A2F1F] transition-colors flex items-center gap-1 text-xs uppercase tracking-wider text-[10px] rounded-md"
                   title="View Razorpay / Stripe direct checkout blueprint"
                 >
-                  <Code className="w-4 h-4 text-[#5A5A40]" />
+                  <Code className="w-4 h-4 text-[#6B452D]" />
                   <span className="hidden sm:inline font-semibold">Gateway Code</span>
                 </button>
               </div>
 
-              <p className="text-[10px] text-[#1A1A1A]/60 text-center uppercase tracking-widest">
+              <p className="text-[10px] text-[#7B6858] text-center uppercase tracking-widest">
                 Direct artist consultations: +91 8000917547 (Vishal Baru, Beawar)
               </p>
             </div>
