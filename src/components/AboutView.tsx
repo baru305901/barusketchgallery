@@ -26,19 +26,19 @@ interface AboutViewProps {
 export const AboutView: React.FC<AboutViewProps> = ({ onOpenCommission, onBrowseGallery }) => {
   const studioPhotos = [
     {
-      url: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80",
+      url: "https://lnpjssonfwpybetvumrj.supabase.co/storage/v1/object/public/painting-images/WhatsApp%20Image%202026-09-04%20at%2011.52.29.jpeg",
       caption: "Natural Stone Pigment Grinding & Pichwai Washes"
     },
     {
-      url: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80",
+      url: "https://lnpjssonfwpybetvumrj.supabase.co/storage/v1/object/public/painting-images/WhatsApp%20Image%202026-09-04%20at%2011.52.33.jpeg",
       caption: "Masterwork on Stretched Cotton Fabric"
     },
     {
-      url: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=800&q=80",
+      url: "https://lnpjssonfwpybetvumrj.supabase.co/storage/v1/object/public/painting-images/WhatsApp%20Image%202026-09-04%20at%2011.53.07.jpeg",
       caption: "Studio Easel & Fine Squirrel Hair Brushes"
     },
     {
-      url: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80",
+      url: "https://lnpjssonfwpybetvumrj.supabase.co/storage/v1/object/public/painting-images/WhatsApp%20Image%202026-09-04%20at%2011.53.12.jpeg",
       caption: "Hyper-Realistic Graphite & Charcoal Rendering"
     }
   ];
@@ -107,7 +107,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onOpenCommission, onBrowse
           <div className="lg:col-span-5 relative">
             <div className="relative mx-auto max-w-md rounded-2xl overflow-hidden shadow-xl border border-[#D6C8B8] bg-[#2D241E] aspect-3/4">
               <img 
-                src="https://lnpjssonfwpybetvumrj.supabase.co/storage/v1/object/public/painting-images/ChatGPT%20Image%20Sep%204,%202026,%2012_04_51%20PM.png" 
+                src="https://lnpjssonfwpybetvumrj.supabase.co/storage/v1/object/public/painting-images/ChatGPT%20Image%20Sep%204,%202026,%2012_04_51%20PM.jpg" 
                 alt="Artist Vishal Baru at Work"
                 className="w-full h-full object-cover"
               />
