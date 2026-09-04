@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #FDFBF7;
+    color: #1A1A1A;
+  }
+  
+  h1, h2, h3, .font-serif-title, .font-cinzel {
+    font-family: 'Cinzel', Georgia, serif;
+  }
+  
+  .font-cormorant, .art-quote, .font-editorial {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+
+  .font-sans-ui {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+}
+
+/* Artistic Flair theme utility classes */
+.pichwai-border {
+  border: 10px solid #5A5A40;
+  outline: 1px solid #1A1A1A;
+  outline-offset: -6px;
+}
+
+.sold-badge {
+  background: #8B0000;
+  color: #FFFFFF;
+  padding: 2px 8px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+}
+
+.available-badge {
+  background: #2F4F4F;
+  color: #FFFFFF;
+  padding: 2px 8px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+}
+
+.vertical-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+/* Custom fine art gallery scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F5F2ED;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C4BEB2;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5A5A40;
+}
+
+

@@ -1,0 +1,6 @@
+{
+  "name": "Baru Sketch Gallery",
+  "description": "Artistic portfolio and e-commerce gallery for artist Vishal Baru featuring original Pichwai, Watercolor, and Sketch artworks, commission booking, and custom art inquiries.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
