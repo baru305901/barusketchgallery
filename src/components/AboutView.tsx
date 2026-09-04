@@ -7,6 +7,7 @@ import {
   Phone, 
   Mail, 
   Instagram, 
+  Facebook,
   Youtube, 
   Award, 
   Layers, 
@@ -250,7 +251,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onOpenCommission, onBrowse
 
           <div className="flex flex-col items-start md:items-end justify-center gap-4">
             <div className="text-[10px] uppercase tracking-widest text-[#A8A49A]">Follow Vishal Baru's Artwork Journey:</div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
               <a
                 href={ARTIST_PROFILE.instagram}
                 target="_blank"
@@ -259,6 +260,16 @@ export const AboutView: React.FC<AboutViewProps> = ({ onOpenCommission, onBrowse
               >
                 <Instagram className="w-4 h-4" />
                 <span>@baru_sketch_gallery</span>
+              </a>
+
+              <a
+                href={ARTIST_PROFILE.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2.5 rounded-lg bg-[#2A2A2A] hover:bg-[#1877F2] text-[#FDFBF7] border border-white/10 text-xs font-semibold flex items-center gap-2 transition-all uppercase tracking-wider text-[11px]"
+              >
+                <Facebook className="w-4 h-4" />
+                <span>Baru sketch gallery</span>
               </a>
 
               <a

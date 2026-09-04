@@ -5,6 +5,7 @@ import {
   Mail, 
   MapPin, 
   Instagram, 
+  Facebook,
   Youtube, 
   Heart, 
   ShieldCheck, 
@@ -63,6 +64,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 title="Instagram"
               >
                 <Instagram className="w-4 h-4" />
+              </a>
+              <a 
+                href={ARTIST_PROFILE.facebook} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-lg bg-[#2A2A2A] hover:bg-[#1877F2] text-[#FDFBF7] flex items-center justify-center transition-all duration-200 border border-white/10"
+                aria-label="Facebook"
+                title="Facebook"
+              >
+                <Facebook className="w-4 h-4" />
               </a>
               <a 
                 href={ARTIST_PROFILE.youtube} 

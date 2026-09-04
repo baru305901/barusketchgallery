@@ -13,7 +13,8 @@ export const ARTIST_PROFILE: ArtistProfile = {
   pincode: "305901",
   state: "Rajasthan, India",
   instagram: "https://www.instagram.com/baru_sketch_gallery",
-  youtube: "https://www.youtube.com/@Vishalbaru"
+  youtube: "https://www.youtube.com/@Vishalbaru",
+  facebook: "https://www.facebook.com/people/Baru-sketch-gallery/100086990053986/"
 };
 
 export const INITIAL_PAINTINGS: Painting[] = [

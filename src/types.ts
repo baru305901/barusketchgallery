@@ -58,6 +58,7 @@ export interface ArtistProfile {
   state: string;
   instagram: string;
   youtube: string;
+  facebook: string;
 }
 
 export interface SupabaseConfig {

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Logo } from './Logo';
 import { 
   Instagram, 
+  Facebook,
   Youtube, 
   Phone, 
   Mail, 
@@ -69,6 +70,16 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setCurrentTab }) => 
                 aria-label="Instagram"
               >
                 <Instagram className="w-3.5 h-3.5" />
+              </a>
+              <a 
+                href={ARTIST_PROFILE.facebook} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="opacity-70 hover:opacity-100 transition-opacity"
+                title="Facebook - Baru Sketch Gallery"
+                aria-label="Facebook"
+              >
+                <Facebook className="w-3.5 h-3.5" />
               </a>
               <a 
                 href={ARTIST_PROFILE.youtube} 
@@ -181,10 +192,14 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setCurrentTab }) => 
               <span>WhatsApp (+91 8000917547)</span>
             </a>
             
-            <div className="flex justify-center items-center gap-6 py-1 text-xs text-[#1A1A1A]/60">
+            <div className="flex justify-center items-center gap-5 py-1 text-xs text-[#1A1A1A]/60">
               <a href={ARTIST_PROFILE.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-[#1A1A1A] transition-colors flex items-center gap-1 font-sans-ui uppercase tracking-wider text-[10px]">
                 <Instagram className="w-3.5 h-3.5" />
                 <span>Instagram</span>
+              </a>
+              <a href={ARTIST_PROFILE.facebook} target="_blank" rel="noopener noreferrer" className="hover:text-[#1A1A1A] transition-colors flex items-center gap-1 font-sans-ui uppercase tracking-wider text-[10px]">
+                <Facebook className="w-3.5 h-3.5" />
+                <span>Facebook</span>
               </a>
               <a href={ARTIST_PROFILE.youtube} target="_blank" rel="noopener noreferrer" className="hover:text-[#1A1A1A] transition-colors flex items-center gap-1 font-sans-ui uppercase tracking-wider text-[10px]">
                 <Youtube className="w-3.5 h-3.5" />
