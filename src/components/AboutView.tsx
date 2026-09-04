@@ -107,7 +107,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onOpenCommission, onBrowse
           <div className="lg:col-span-5 relative">
             <div className="relative mx-auto max-w-md rounded-2xl overflow-hidden shadow-xl border border-[#D6C8B8] bg-[#2D241E] aspect-3/4">
               <img 
-                src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80" 
+                src="https://lnpjssonfwpybetvumrj.supabase.co/storage/v1/object/public/painting-images/ChatGPT%20Image%20Sep%204,%202026,%2012_04_51%20PM.png" 
                 alt="Artist Vishal Baru at Work"
                 className="w-full h-full object-cover"
               />
