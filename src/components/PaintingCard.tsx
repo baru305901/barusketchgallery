@@ -44,15 +44,19 @@ export const PaintingCard: React.FC<PaintingCardProps> = ({ painting, onSelectPa
             {painting.type}
           </span>
 
-          {/* Status Tag: Clearly displays "Available" or "Sold" with theme badge */}
+          {/* Status Tag: Clearly displays "Available" or "Sold" with high-contrast badge */}
           {isAvailable ? (
-            <span className="available-badge">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-300 mr-1 animate-pulse"></span>
-              Available
+            <span className="available-badge bg-emerald-600 text-white border border-emerald-400/60 shadow-xs rounded-full px-2.5 py-1 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider font-sans-ui">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+              <span>Available</span>
             </span>
           ) : (
-            <span className="sold-badge">
-              Sold
+            <span 
+              style={{ backgroundColor: '#d60808' }}
+              className="sold-badge bg-[#d60808] text-white border border-red-400/60 shadow-xs rounded-full px-2.5 py-1 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider font-sans-ui"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-white/90"></span>
+              <span>Sold</span>
             </span>
           )}
         </div>

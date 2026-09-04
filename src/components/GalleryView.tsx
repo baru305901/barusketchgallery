@@ -121,12 +121,18 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
               <div className="text-[10px] uppercase tracking-widest text-[#4A2F1F] font-sans-ui font-medium">Total Works</div>
             </div>
             <div>
-              <div className="font-cinzel text-xl sm:text-2xl font-bold text-[#6B452D]">{availableCount}</div>
-              <div className="text-[10px] uppercase tracking-widest text-[#4A2F1F] font-sans-ui font-medium">Available</div>
+              <div className="font-cinzel text-xl sm:text-2xl font-bold text-emerald-700">{availableCount}</div>
+              <div className="text-[10px] uppercase tracking-widest text-[#4A2F1F] font-sans-ui font-medium flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                <span>Available</span>
+              </div>
             </div>
             <div>
-              <div className="font-cinzel text-xl sm:text-2xl font-bold text-[#6B452D]">{soldCount}</div>
-              <div className="text-[10px] uppercase tracking-widest text-[#4A2F1F] font-sans-ui font-medium">Collected</div>
+              <div className="font-cinzel text-xl sm:text-2xl font-bold text-rose-700">{soldCount}</div>
+              <div className="text-[10px] uppercase tracking-widest text-[#4A2F1F] font-sans-ui font-medium flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-rose-600"></span>
+                <span>Sold</span>
+              </div>
             </div>
           </div>
         </div>
@@ -175,22 +181,23 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
                 onClick={() => setSelectedStatus('available')}
                 className={`px-3 py-1.5 rounded-md text-[11px] uppercase tracking-wider font-semibold transition-all flex items-center gap-1.5 ${
                   selectedStatus === 'available' 
-                    ? 'bg-[#4A2F1F] text-[#FFFFFF] shadow-xs' 
+                    ? 'bg-emerald-600 text-white shadow-xs border border-emerald-500 font-bold' 
                     : 'text-[#4A2F1F] hover:bg-[#E9DDCC]'
                 }`}
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                <span className={`w-2 h-2 rounded-full ${selectedStatus === 'available' ? 'bg-white animate-pulse' : 'bg-emerald-600'}`}></span>
                 <span>Available ({availableCount})</span>
               </button>
               <button
                 onClick={() => setSelectedStatus('sold')}
-                className={`px-3 py-1.5 rounded-md text-[11px] uppercase tracking-wider font-semibold transition-all ${
+                className={`px-3 py-1.5 rounded-md text-[11px] uppercase tracking-wider font-semibold transition-all flex items-center gap-1.5 ${
                   selectedStatus === 'sold' 
-                    ? 'bg-[#4A2F1F] text-[#FFFFFF] shadow-xs' 
+                    ? 'bg-[#d60808] text-white shadow-xs border border-red-600 font-bold' 
                     : 'text-[#4A2F1F] hover:bg-[#E9DDCC]'
                 }`}
               >
-                Sold ({soldCount})
+                <span className={`w-2 h-2 rounded-full ${selectedStatus === 'sold' ? 'bg-white' : 'bg-[#d60808]'}`}></span>
+                <span>Sold ({soldCount})</span>
               </button>
             </div>
 

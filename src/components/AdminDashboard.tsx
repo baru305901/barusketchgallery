@@ -880,14 +880,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         <td className="py-3 px-4">
                           <button
                             onClick={() => handleToggleStatus(painting)}
-                            className={`px-3 py-1 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 ${
+                            className={`px-3 py-1 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 shadow-2xs border ${
                               isAvailable
-                                ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
-                                : 'bg-[#E9DDCC] text-[#7B6858] hover:bg-[#D6C8B8]'
+                                ? 'bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-500'
+                                : 'bg-[#d60808] hover:bg-red-700 text-white border-red-500'
                             }`}
-                            title="Click to toggle status"
+                            title="Click to toggle status between Available and Sold"
                           >
-                            <span className={`w-2 h-2 rounded-full ${isAvailable ? 'bg-emerald-600' : 'bg-[#7B6858]'}`}></span>
+                            <span className={`w-2 h-2 rounded-full ${isAvailable ? 'bg-white animate-pulse' : 'bg-white/90'}`}></span>
                             <span>{isAvailable ? 'Available' : 'Sold'}</span>
                           </button>
                         </td>

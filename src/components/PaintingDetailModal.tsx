@@ -232,13 +232,17 @@ export const PaintingDetailModal: React.FC<PaintingDetailModalProps> = ({
                 {/* Status Indicator */}
                 <div>
                   {isAvailable ? (
-                    <span className="available-badge">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-300 mr-1 animate-pulse"></span>
-                      Available
+                    <span className="available-badge bg-emerald-600 text-white border border-emerald-400/60 shadow-xs rounded-full px-3 py-1 inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider font-sans-ui">
+                      <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+                      <span>Available</span>
                     </span>
                   ) : (
-                    <span className="sold-badge">
-                      Sold Out
+                    <span 
+                      style={{ backgroundColor: '#d60808' }}
+                      className="sold-badge bg-[#d60808] text-white border border-red-400/60 shadow-xs rounded-full px-3 py-1 inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider font-sans-ui"
+                    >
+                      <span className="w-2 h-2 rounded-full bg-white/90"></span>
+                      <span>Sold Out</span>
                     </span>
                   )}
                 </div>
