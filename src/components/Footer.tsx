@@ -9,7 +9,6 @@ import {
   Youtube, 
   Heart, 
   ShieldCheck, 
-  Sparkles,
   ArrowRight,
   ArrowUp,
   MessageCircle,
@@ -18,9 +17,10 @@ import {
   Palette
 } from 'lucide-react';
 import { ARTIST_PROFILE } from '../data/initialData';
+import { AppTab } from '../types';
 
 interface FooterProps {
-  onNavigate: (tab: 'gallery' | 'about' | 'commission' | 'admin') => void;
+  onNavigate: (tab: AppTab) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {

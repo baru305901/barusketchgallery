@@ -11,12 +11,12 @@ import { AboutView } from './components/AboutView';
 import { BookingInquiryView } from './components/BookingInquiryView';
 import { AdminDashboard } from './components/AdminDashboard';
 import { PaintingDetailModal } from './components/PaintingDetailModal';
-import { Painting, Enquiry } from './types';
+import { Painting, Enquiry, AppTab } from './types';
 import { fetchPaintings, fetchEnquiries } from './lib/store';
 import { INITIAL_PAINTINGS, INITIAL_ENQUIRIES } from './data/initialData';
 
 export default function App() {
-  const [currentTab, setCurrentTab] = useState<'gallery' | 'about' | 'commission' | 'admin'>('gallery');
+  const [currentTab, setCurrentTab] = useState<AppTab>('gallery');
   const [paintings, setPaintings] = useState<Painting[]>(INITIAL_PAINTINGS);
   const [enquiries, setEnquiries] = useState<Enquiry[]>(INITIAL_ENQUIRIES);
   const [selectedPainting, setSelectedPainting] = useState<Painting | null>(null);

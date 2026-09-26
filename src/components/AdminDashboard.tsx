@@ -117,7 +117,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     const cleanInputEmail = authEmail.trim().toLowerCase();
     const cleanInputPassword = authPassword.trim();
     const targetEmail = 'sketchartis007@gmail.com';
-    const validPasscodes = ['baru7547', 'admin123', '305901'];
+    const validPasscodes = ['baru7547', 'admin123*', '305901'];
 
     // 1. Strict Email Verification
     if (cleanInputEmail !== targetEmail) {

@@ -8,7 +8,7 @@ export interface AdminLoginModalProps {
 }
 
 const ALLOWED_ADMIN_EMAIL = 'sketchartis007@gmail.com';
-const VALID_MASTER_PASSCODES = ['baru7547', 'admin123', '305901'];
+const VALID_MASTER_PASSCODES = ['baru7547', 'admin123*', '305901'];
 
 export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
   isOpen = true,

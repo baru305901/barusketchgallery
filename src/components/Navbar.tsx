@@ -15,17 +15,18 @@ import {
   MessageCircle
 } from 'lucide-react';
 import { ARTIST_PROFILE } from '../data/initialData';
+import { AppTab } from '../types';
 
 interface NavbarProps {
-  currentTab: 'gallery' | 'about' | 'commission' | 'admin';
-  setCurrentTab: (tab: 'gallery' | 'about' | 'commission' | 'admin') => void;
+  currentTab: AppTab;
+  setCurrentTab: (tab: AppTab) => void;
   onOpenQuickEnquiry?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ currentTab, setCurrentTab }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const navItems = [
+  const navItems: { id: AppTab; label: string; isSpecial?: boolean }[] = [
     { id: 'gallery', label: 'Portfolio' },
     { id: 'about', label: 'About the Artist' },
     { id: 'commission', label: 'Commissions' },
@@ -115,12 +116,12 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setCurrentTab }) => 
               <button
                 key={item.id}
                 id={`nav-link-${item.id}`}
-                onClick={() => setCurrentTab(item.id as any)}
-                className={`py-1 transition-all ${
+                onClick={() => setCurrentTab(item.id)}
+                className={`py-1 transition-all inline-flex items-center gap-1.5 ${
                   isActive 
                     ? 'border-b-2 border-[#6B452D] text-[#6B452D] font-bold' 
                     : item.isSpecial
-                    ? 'text-[#6B452D] font-bold opacity-80 hover:opacity-100'
+                    ? 'text-[#6B452D] font-bold opacity-85 hover:opacity-100'
                     : 'text-[#2D241E] opacity-75 hover:opacity-100 hover:text-[#6B452D]'
                 }`}
               >
@@ -165,7 +166,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setCurrentTab }) => 
               <button
                 key={item.id}
                 onClick={() => {
-                  setCurrentTab(item.id as any);
+                  setCurrentTab(item.id);
                   setMobileMenuOpen(false);
                 }}
                 className={`w-full flex items-center justify-between py-2.5 text-xs uppercase tracking-widest font-sans-ui text-left ${

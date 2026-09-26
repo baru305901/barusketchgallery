@@ -61,6 +61,8 @@ export interface ArtistProfile {
   facebook: string;
 }
 
+export type AppTab = 'gallery' | 'about' | 'commission' | 'admin';
+
 export interface SupabaseConfig {
   supabaseUrl: string;
   supabaseAnonKey: string;

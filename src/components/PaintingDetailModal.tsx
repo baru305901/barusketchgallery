@@ -7,7 +7,6 @@ import {
   ShieldCheck, 
   Truck, 
   Award, 
-  Sparkles, 
   HelpCircle, 
   Share2, 
   Check, 
@@ -35,7 +34,7 @@ export const PaintingDetailModal: React.FC<PaintingDetailModalProps> = ({
   painting, 
   isOpen, 
   onClose,
-  onInquireCustom 
+  onInquireCustom
 }) => {
   const [showFuturePayment, setShowFuturePayment] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
@@ -223,7 +222,7 @@ export const PaintingDetailModal: React.FC<PaintingDetailModalProps> = ({
                   
                   {painting.featured && (
                     <span className="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-[#6B452D] text-[#FFFFFF] flex items-center gap-1 rounded-sm shadow-xs">
-                      <Sparkles className="w-3 h-3 text-[#E9DDCC]" />
+                      <Award className="w-3 h-3 text-[#E9DDCC]" />
                       Featured Masterpiece
                     </span>
                   )}
