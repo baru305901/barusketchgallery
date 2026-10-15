@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   ShieldCheck, 
   Plus, 
@@ -32,7 +32,10 @@ import {
   MessageCircle,
   Code,
   Star,
-  Images
+  Images,
+  Maximize2,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import { Painting, Enquiry, PaintingType, PaintingStatus, EnquiryStatus } from '../types';
 import { 
@@ -40,7 +43,9 @@ import {
   deletePaintingById, 
   togglePaintingStatus, 
   updateEnquiryStatus, 
-  resetToInitialGallery 
+  resetToInitialGallery,
+  isValidUUID,
+  generateEntityId
 } from '../lib/store';
 import { 
   setSupabaseCredentials, 
@@ -50,6 +55,7 @@ import {
   DEFAULT_SUPABASE_URL,
   DEFAULT_SUPABASE_ANON_KEY
 } from '../lib/supabaseClient';
+import { compressImage } from '../lib/imageCompression';
 
 interface AdminDashboardProps {
   paintings: Painting[];
@@ -100,6 +106,35 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const [enquiryFilter, setEnquiryFilter] = useState<'all' | 'new' | 'contacted' | 'closed'>('all');
   const [selectedEnquiry, setSelectedEnquiry] = useState<Enquiry | null>(null);
   const [previewReferenceImage, setPreviewReferenceImage] = useState<string | null>(null);
+
+  // Full-size artwork photo viewer modal state
+  const [fullSizeViewer, setFullSizeViewer] = useState<{
+    images: string[];
+    currentIndex: number;
+    title?: string;
+  } | null>(null);
+
+  // Keyboard navigation for full-size photo viewer (Esc to close, Left/Right arrows to cycle)
+  useEffect(() => {
+    if (!fullSizeViewer) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setFullSizeViewer(null);
+      } else if (e.key === 'ArrowLeft' && fullSizeViewer.images.length > 1) {
+        setFullSizeViewer(prev => prev ? {
+          ...prev,
+          currentIndex: (prev.currentIndex - 1 + prev.images.length) % prev.images.length
+        } : null);
+      } else if (e.key === 'ArrowRight' && fullSizeViewer.images.length > 1) {
+        setFullSizeViewer(prev => prev ? {
+          ...prev,
+          currentIndex: (prev.currentIndex + 1) % prev.images.length
+        } : null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [fullSizeViewer]);
 
   // Supabase connection state
   const [supabaseUrlInput, setSupabaseUrlInput] = useState(() => localStorage.getItem('baru_supabase_url') || DEFAULT_SUPABASE_URL || '');
@@ -193,6 +228,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
   // Remove a photo from uploaded images
   const handleRemoveImage = (urlToRemove: string) => {
+    setFormErrorMessage('');
     setFormImages(prev => {
       const remaining = prev.filter(u => u !== urlToRemove);
       if (formImageUrl === urlToRemove) {
@@ -204,6 +240,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
   // Add an image from URL input
   const handleAddImageUrl = () => {
+    // Clear error banner when a new photo is added
+    setFormErrorMessage('');
     const trimmed = newImageUrlInput.trim();
     if (!trimmed) return;
     setFormImages(prev => {
@@ -217,51 +255,71 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     setNewImageUrlInput('');
   };
 
-  // Handle local painting image file upload with Supabase storage upload & FileReader fallback (Supports multiple files)
+  // Handle local painting image file upload with automatic client-side canvas compression
   const handlePaintingImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Clear error banner when photo selection starts
+    setFormErrorMessage('');
+
     if (e.target.files && e.target.files.length > 0) {
       const selectedFiles: File[] = Array.from(e.target.files);
       setIsUploadingImage(true);
-      setFormErrorMessage('');
-
-      // Helper to read file to base64 Data URL
-      const readAsBase64 = (fileToRead: File): Promise<string> => {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = (evt) => resolve(evt.target?.result as string);
-          reader.onerror = (err) => reject(err);
-          reader.readAsDataURL(fileToRead);
-        });
-      };
 
       try {
-        console.log(`[Painting Image Upload] Selected ${selectedFiles.length} file(s) for upload.`);
+        console.log(`[Painting Image Upload] Selected ${selectedFiles.length} file(s) for client-side optimization.`);
         const supabase = getSupabase();
         const uploadedUrls: string[] = [];
 
         for (const file of selectedFiles) {
-          console.log('[Painting Image Upload] Uploading file:', file.name, `(${Math.round(file.size / 1024)} KB)`);
+          // Clear error banner as each photo is processed
+          setFormErrorMessage('');
+
+          console.log('[Painting Image Upload] Compressing file:', file.name, `(${Math.round(file.size / 1024)} KB)`);
+
+          // 1. Automatic client-side image compression with HTML Canvas:
+          // Max dimension: 2800px (preserving aspect ratio), JPEG at 0.94 quality for fine painting details
+          let compressedDataUrl: string;
+          let compressedFile: File;
+
+          try {
+            const result = await compressImage(file, 2800, 0.94);
+            compressedDataUrl = result.dataUrl;
+            compressedFile = result.file;
+            console.log(
+              `[Painting Image Upload] Optimization complete: ${file.name} compressed to ${Math.round(result.compressedSize / 1024)} KB (${result.width}x${result.height})`
+            );
+          } catch (compErr) {
+            console.warn('[Painting Image Upload] Canvas compression fallback:', compErr);
+            compressedFile = file;
+            // Fallback reader
+            compressedDataUrl = await new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = (evt) => resolve(evt.target?.result as string);
+              reader.onerror = reject;
+              reader.readAsDataURL(file);
+            });
+          }
+
           let targetImageUrl: string | null = null;
 
-          // Attempt Supabase storage upload if client is available
+          // 2. Attempt Supabase storage upload with compressed file if available
           if (supabase) {
             try {
-              const uploadedUrl = await uploadImageToSupabase(file, 'painting-images');
+              const uploadedUrl = await uploadImageToSupabase(compressedFile, 'painting-images');
               if (uploadedUrl) {
                 console.log('[Painting Image Upload] Supabase storage upload success:', uploadedUrl);
                 targetImageUrl = uploadedUrl;
               } else {
-                console.warn('[Painting Image Upload] Supabase storage returned null. Falling back to base64 Data URL.');
+                console.warn('[Painting Image Upload] Supabase storage returned null. Using compressed Data URL.');
               }
             } catch (storageErr) {
               console.warn('[Painting Image Upload] Supabase storage upload failed with notice:', storageErr);
             }
           }
 
-          // If storage upload was skipped, returned null, or failed, fall back to base64 Data URL directly
+          // 3. Fall back to the optimized canvas Data URL (~200KB-400KB instead of 10MB)
           if (!targetImageUrl) {
-            targetImageUrl = await readAsBase64(file);
-            console.log('[Painting Image Upload] Converted image to local Data URL.');
+            targetImageUrl = compressedDataUrl;
+            console.log('[Painting Image Upload] Using optimized local Data URL.');
           }
 
           if (targetImageUrl) {
@@ -270,6 +328,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         }
 
         if (uploadedUrls.length > 0) {
+          // Clear error banner when new photos are added to the form
+          setFormErrorMessage('');
           setFormImages(prev => {
             const nextList = [...prev];
             for (const u of uploadedUrls) {
@@ -285,7 +345,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         }
       } catch (uploadErr) {
         console.error('[Painting Multiple Upload Error]:', uploadErr);
-        setFormErrorMessage('Failed to process some uploaded image files.');
+        setFormErrorMessage('Failed to process and optimize some uploaded image files.');
       } finally {
         setIsUploadingImage(false);
         if (paintingFileInputRef.current) {
@@ -450,25 +510,37 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
     setIsSeedingSupabase(true);
     try {
-      // Map paintings ensuring clean structure
-      const records = paintings.map(p => ({
-        id: p.id.includes('-') && p.id.length >= 32 ? p.id : undefined,
-        name: p.name,
-        description: p.description,
-        size: p.size,
-        price: p.price,
-        type: p.type,
-        status: p.status,
-        image_url: p.image_url,
-        medium_details: p.medium_details || null,
-        year: p.year || 2024,
-        featured: Boolean(p.featured)
-      }));
+      // Map paintings ensuring clean structure with valid UUIDs and all required columns
+      const records = paintings.map(p => {
+        const entityId = isValidUUID(p.id) ? p.id : generateEntityId();
+        const paintingType = p.type || 'Pichwai';
+        const mediumValue = p.medium || p.medium_details || paintingType;
+        const imagesList = Array.isArray(p.images) && p.images.length > 0 
+          ? p.images 
+          : (p.image_url ? [p.image_url] : []);
+
+        return {
+          id: entityId,
+          name: p.name,
+          description: p.description || '',
+          size: p.size,
+          price: Number(p.price) || 0,
+          type: paintingType,
+          category: p.category || paintingType,
+          medium: mediumValue,
+          status: p.status || 'available',
+          image_url: p.image_url || imagesList[0] || '',
+          images: imagesList,
+          medium_details: p.medium_details || mediumValue,
+          year: p.year || new Date().getFullYear(),
+          featured: Boolean(p.featured)
+        };
+      });
 
       const { error } = await supabase.from('paintings').upsert(records, { onConflict: 'id' });
       if (error) {
         console.warn('Supabase upsert notice:', error.message);
-        alert(`Supabase Response: ${error.message}. (Make sure you executed the SQL schema in your Supabase SQL Editor first)`);
+        alert(`Supabase Response: ${error.message}. (Make sure table columns match your schema)`);
       } else {
         setSaveSuccessMsg('Successfully synced paintings to Supabase!');
         await onRefreshData();
@@ -837,12 +909,30 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       <tr key={painting.id} className="hover:bg-[#F7F1E7]/50 transition-colors">
                         <td className="py-3 px-4">
                           <div className="flex items-center gap-3">
-                            <div className="relative shrink-0">
+                            <div 
+                              className="relative shrink-0 cursor-pointer group"
+                              title="Click to view full-resolution photo"
+                              onClick={() => {
+                                const list = (painting.images && painting.images.length > 0) 
+                                  ? painting.images 
+                                  : [painting.image_url].filter(Boolean);
+                                if (list.length > 0) {
+                                  setFullSizeViewer({
+                                    images: list,
+                                    currentIndex: 0,
+                                    title: painting.name
+                                  });
+                                }
+                              }}
+                            >
                               <img
                                 src={painting.image_url || painting.images?.[0]}
                                 alt={painting.name}
-                                className="w-12 h-12 rounded-lg object-cover border border-[#D6C8B8]"
+                                className="w-12 h-12 rounded-lg object-cover border border-[#D6C8B8] group-hover:ring-2 group-hover:ring-[#A8753F] transition-all"
                               />
+                              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
+                                <Maximize2 className="w-3.5 h-3.5 text-white" />
+                              </div>
                               {(painting.images?.length || 0) > 1 && (
                                 <span className="absolute -bottom-1 -right-1 bg-[#4A2F1F] text-[#E9DDCC] text-[9px] px-1 rounded font-bold border border-white">
                                   {painting.images?.length}
@@ -1205,17 +1295,27 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               
               {/* Form Error Banner */}
               {formErrorMessage && (
-                <div className="p-4 bg-red-50 border border-red-200 rounded-2xl text-xs text-red-800 flex items-start gap-3 shadow-sm animate-in fade-in">
-                  <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
-                  <div className="space-y-1">
-                    <p className="font-bold text-red-900">Database / Form Error:</p>
-                    <p className="text-red-700 leading-relaxed break-words">{formErrorMessage}</p>
-                    {formErrorMessage.toLowerCase().includes('policy') || formErrorMessage.toLowerCase().includes('permission') || formErrorMessage.toLowerCase().includes('row-level') ? (
-                      <p className="text-[11px] text-red-600 mt-1">
-                        💡 <strong>Hint:</strong> Row Level Security (RLS) is blocking this operation. Please execute the RLS policies SQL in your Supabase SQL Editor (available under the "Supabase SQL Schema" tab).
-                      </p>
-                    ) : null}
+                <div className="p-4 bg-red-50 border border-red-200 rounded-2xl text-xs text-red-800 flex items-start justify-between gap-3 shadow-sm animate-in fade-in">
+                  <div className="flex items-start gap-3">
+                    <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+                    <div className="space-y-1">
+                      <p className="font-bold text-red-900">Database / Form Error:</p>
+                      <p className="text-red-700 leading-relaxed break-words">{formErrorMessage}</p>
+                      {formErrorMessage.toLowerCase().includes('policy') || formErrorMessage.toLowerCase().includes('permission') || formErrorMessage.toLowerCase().includes('row-level') ? (
+                        <p className="text-[11px] text-red-600 mt-1">
+                          💡 <strong>Hint:</strong> Row Level Security (RLS) is blocking this operation. Please execute the RLS policies SQL in your Supabase SQL Editor (available under the "Supabase SQL Schema" tab).
+                        </p>
+                      ) : null}
+                    </div>
                   </div>
+                  <button
+                    type="button"
+                    onClick={() => setFormErrorMessage('')}
+                    className="p-1 rounded-lg text-red-400 hover:text-red-700 hover:bg-red-100 transition-colors shrink-0 cursor-pointer"
+                    title="Dismiss error"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
                 </div>
               )}
 
@@ -1324,7 +1424,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     {isUploadingImage ? (
                       <>
                         <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                        <span>Uploading Images...</span>
+                        <span>Optimizing image...</span>
                       </>
                     ) : (
                       <>
@@ -1371,26 +1471,44 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 {/* Uploaded Photos Visual Grid */}
                 {formImages.length > 0 ? (
                   <div className="space-y-2 pt-1">
+                    <div className="flex items-center justify-between text-xs text-[#7B6858]">
+                      <span>{formImages.length} {formImages.length === 1 ? 'photo' : 'photos'} uploaded</span>
+                      <span className="text-[11px] text-[#A8753F] italic">Click any thumbnail to preview full resolution</span>
+                    </div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                       {formImages.map((imgUrl, index) => {
                         const isPrimary = (formImageUrl === imgUrl) || (!formImageUrl && index === 0);
                         return (
                           <div
                             key={index}
-                            className={`group relative rounded-xl overflow-hidden border-2 transition-all bg-[#2D241E] aspect-4/3 flex flex-col justify-between ${
+                            onClick={() => setFullSizeViewer({
+                              images: formImages,
+                              currentIndex: index,
+                              title: formName.trim() || editingPainting?.name || `Artwork Photo #${index + 1}`
+                            })}
+                            className={`group relative rounded-xl overflow-hidden border-2 transition-all bg-[#2D241E] aspect-4/3 flex flex-col justify-between cursor-pointer shadow-sm hover:shadow-md ${
                               isPrimary 
                                 ? 'border-[#A8753F] ring-2 ring-[#A8753F]/40' 
                                 : 'border-[#D6C8B8] hover:border-[#6B452D]'
                             }`}
+                            title="Click to view full-resolution photo"
                           >
                             <img
                               src={imgUrl}
                               alt={`Artwork photo ${index + 1}`}
-                              className="w-full h-full object-cover"
+                              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                             />
 
-                            {/* Top Badges & Remove Button */}
-                            <div className="absolute top-1.5 left-1.5 right-1.5 flex items-center justify-between pointer-events-auto">
+                            {/* Hover overlay hint */}
+                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                              <span className="px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-xs text-white text-[10px] font-medium flex items-center gap-1.5 shadow-lg border border-white/20">
+                                <Maximize2 className="w-3 h-3 text-[#E9DDCC]" />
+                                <span>View Full Size</span>
+                              </span>
+                            </div>
+
+                            {/* Top Badges & Quick Action Buttons */}
+                            <div className="absolute top-1.5 left-1.5 right-1.5 flex items-center justify-between pointer-events-auto z-10">
                               {isPrimary ? (
                                 <span className="px-2 py-0.5 rounded-md bg-[#6B452D] text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 shadow-md">
                                   <Star className="w-3 h-3 fill-[#E9DDCC] text-[#E9DDCC]" />
@@ -1402,23 +1520,48 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                                 </span>
                               )}
 
-                              <button
-                                type="button"
-                                onClick={() => handleRemoveImage(imgUrl)}
-                                className="p-1 rounded-full bg-black/70 hover:bg-rose-600 text-white transition-colors shadow-md"
-                                title="Remove photo"
-                                aria-label="Remove photo"
-                              >
-                                <X className="w-3.5 h-3.5" />
-                              </button>
+                              <div className="flex items-center gap-1">
+                                {/* Open in New Tab Button */}
+                                <a
+                                  href={imgUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="p-1 rounded-full bg-black/70 hover:bg-[#6B452D] text-white transition-colors shadow-md"
+                                  title="Open full-resolution image in new browser tab"
+                                  aria-label="Open full-resolution image in new browser tab"
+                                >
+                                  <ExternalLink className="w-3 h-3" />
+                                </a>
+
+                                {/* Remove Photo Button */}
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleRemoveImage(imgUrl);
+                                  }}
+                                  className="p-1 rounded-full bg-black/70 hover:bg-rose-600 text-white transition-colors shadow-md"
+                                  title="Remove photo"
+                                  aria-label="Remove photo"
+                                >
+                                  <X className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
                             </div>
 
                             {/* Bottom Set-as-Cover button overlay */}
                             {!isPrimary && (
-                              <div className="absolute bottom-1.5 left-1.5 right-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <div 
+                                className="absolute bottom-1.5 left-1.5 right-1.5 opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                                onClick={(e) => e.stopPropagation()}
+                              >
                                 <button
                                   type="button"
-                                  onClick={() => handleSetPrimaryImage(imgUrl)}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleSetPrimaryImage(imgUrl);
+                                  }}
                                   className="w-full py-1 px-2 rounded-lg bg-black/80 hover:bg-[#6B452D] text-white text-[10px] font-semibold tracking-wider uppercase transition-colors flex items-center justify-center gap-1 shadow-md"
                                 >
                                   <Star className="w-3 h-3 text-[#E9DDCC]" />
@@ -1542,6 +1685,132 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 Close Viewer
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* FULL-SIZE ARTWORK PHOTO VIEWER MODAL */}
+      {fullSizeViewer && (
+        <div 
+          className="fixed inset-0 z-70 flex items-center justify-center p-3 sm:p-6 bg-black/92 backdrop-blur-md animate-in fade-in select-none"
+          onClick={() => setFullSizeViewer(null)}
+        >
+          <div 
+            className="relative max-w-5xl w-full flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header Controls Bar */}
+            <div className="w-full flex items-center justify-between py-2 px-3 text-white mb-2">
+              <div className="flex items-center gap-2">
+                <span className="font-cinzel font-semibold text-sm text-[#F7F1E7] line-clamp-1">
+                  {fullSizeViewer.title || 'Artwork Preview'}
+                </span>
+                {fullSizeViewer.images.length > 1 && (
+                  <span className="px-2 py-0.5 rounded-full bg-white/10 text-xs font-mono text-[#D6C8B8]">
+                    {fullSizeViewer.currentIndex + 1} / {fullSizeViewer.images.length}
+                  </span>
+                )}
+                {formImageUrl === fullSizeViewer.images[fullSizeViewer.currentIndex] && (
+                  <span className="px-2 py-0.5 rounded-md bg-[#A8753F] text-white text-[10px] font-bold uppercase tracking-wider hidden sm:inline-flex items-center gap-1">
+                    <Star className="w-3 h-3 fill-white" />
+                    <span>Cover Photo</span>
+                  </span>
+                )}
+              </div>
+
+              <div className="flex items-center gap-2">
+                {/* Open in New Tab Button */}
+                <a
+                  href={fullSizeViewer.images[fullSizeViewer.currentIndex]}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-[#E9DDCC] hover:text-white text-xs font-medium flex items-center gap-1.5 transition-colors border border-white/15"
+                  title="Open full resolution image in new browser tab"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Open in New Tab</span>
+                </a>
+
+                {/* Download Button */}
+                <a
+                  href={fullSizeViewer.images[fullSizeViewer.currentIndex]}
+                  download={`${(fullSizeViewer.title || 'artwork').toLowerCase().replace(/\s+/g, '_')}_photo_${fullSizeViewer.currentIndex + 1}.jpg`}
+                  className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-[#E9DDCC] hover:text-white transition-colors border border-white/15"
+                  title="Download full image"
+                >
+                  <Download className="w-4 h-4" />
+                </a>
+
+                {/* Close Button */}
+                <button
+                  type="button"
+                  onClick={() => setFullSizeViewer(null)}
+                  className="p-1.5 rounded-xl bg-white/15 hover:bg-rose-600 text-white transition-colors"
+                  title="Close viewer (Esc)"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Main Full-Resolution Image Display */}
+            <div className="relative w-full flex items-center justify-center min-h-[50vh] max-h-[76vh] overflow-hidden rounded-2xl bg-[#1A1410] border border-white/10 shadow-2xl">
+              <img
+                src={fullSizeViewer.images[fullSizeViewer.currentIndex]}
+                alt={fullSizeViewer.title || 'Full resolution artwork photo'}
+                className="max-h-[74vh] max-w-full object-contain mx-auto"
+              />
+
+              {/* Previous Image Arrow */}
+              {fullSizeViewer.images.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => setFullSizeViewer(prev => prev ? {
+                    ...prev,
+                    currentIndex: (prev.currentIndex - 1 + prev.images.length) % prev.images.length
+                  } : null)}
+                  className="absolute left-3 p-2.5 rounded-full bg-black/60 hover:bg-black/90 text-white backdrop-blur-xs transition-all hover:scale-110 shadow-xl border border-white/20"
+                  title="Previous Photo (Left Arrow)"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+              )}
+
+              {/* Next Image Arrow */}
+              {fullSizeViewer.images.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => setFullSizeViewer(prev => prev ? {
+                    ...prev,
+                    currentIndex: (prev.currentIndex + 1) % prev.images.length
+                  } : null)}
+                  className="absolute right-3 p-2.5 rounded-full bg-black/60 hover:bg-black/90 text-white backdrop-blur-xs transition-all hover:scale-110 shadow-xl border border-white/20"
+                  title="Next Photo (Right Arrow)"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              )}
+            </div>
+
+            {/* Thumbnails Strip (if multiple photos) */}
+            {fullSizeViewer.images.length > 1 && (
+              <div className="mt-3 flex items-center gap-2 overflow-x-auto max-w-full py-1 px-2 scrollbar-none">
+                {fullSizeViewer.images.map((thumbUrl, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setFullSizeViewer(prev => prev ? { ...prev, currentIndex: idx } : null)}
+                    className={`relative shrink-0 w-14 h-14 rounded-lg overflow-hidden border-2 transition-all ${
+                      idx === fullSizeViewer.currentIndex
+                        ? 'border-[#A8753F] ring-2 ring-[#A8753F]/60 scale-105'
+                        : 'border-white/20 opacity-60 hover:opacity-100'
+                    }`}
+                  >
+                    <img src={thumbUrl} alt="" className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}

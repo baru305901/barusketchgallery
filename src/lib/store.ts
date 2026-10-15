@@ -1,5 +1,5 @@
 import { Painting, Enquiry, PaintingStatus, EnquiryStatus } from '../types';
-import { INITIAL_PAINTINGS, INITIAL_ENQUIRIES } from '../data/initialData';
+import { INITIAL_ENQUIRIES } from '../data/initialData';
 import { getSupabase } from './supabaseClient';
 
 const STORAGE_KEYS = {
@@ -14,7 +14,7 @@ export const isValidUUID = (id: string | null | undefined): boolean => {
 };
 
 export const generateEntityId = (): string => {
-  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
     try {
       return crypto.randomUUID();
     } catch {
@@ -28,19 +28,48 @@ export const generateEntityId = (): string => {
   });
 };
 
-// Initialize LocalStorage with initial data if empty
-const getStoredPaintings = (): Painting[] => {
-  if (typeof window === 'undefined') return INITIAL_PAINTINGS;
+// Safely persist paintings to localStorage wrapped in try...catch so it never throws an unhandled QuotaExceededError
+export const safeSetPaintingsStorage = (paintings: Painting[]): void => {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(STORAGE_KEYS.PAINTINGS, JSON.stringify(paintings));
+  } catch (quotaError) {
+    console.warn('[LocalStorage] Quota exceeded or error saving to baru_gallery_paintings:', quotaError);
+    // If quota exceeded, attempt to cache a lightweight version without giant data URLs
+    try {
+      const lightweight = paintings.map(item => ({
+        ...item,
+        image_url: item.image_url?.startsWith('data:') && item.image_url.length > 200000 ? '' : item.image_url,
+        images: (item.images || []).map(img => img.startsWith('data:') && img.length > 200000 ? '' : img).filter(Boolean)
+      }));
+      localStorage.setItem(STORAGE_KEYS.PAINTINGS, JSON.stringify(lightweight));
+    } catch {
+      // Gracefully prevent unhandled quota error from breaking the application
+    }
+  }
+};
+
+// Retrieve locally cached paintings, guaranteeing no fallback to dummy items
+export const getStoredPaintings = (): Painting[] => {
+  if (typeof window === 'undefined') return [];
   try {
     const raw = localStorage.getItem(STORAGE_KEYS.PAINTINGS);
     if (!raw) {
-      localStorage.setItem(STORAGE_KEYS.PAINTINGS, JSON.stringify(INITIAL_PAINTINGS));
-      return INITIAL_PAINTINGS;
+      return [];
     }
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) {
+      // Purge any legacy dummy mock items (e.g. 'p1', 'p2') that might have lingered in localStorage
+      const cleanItems = parsed.filter(item => item && isValidUUID(item.id));
+      if (cleanItems.length !== parsed.length) {
+        safeSetPaintingsStorage(cleanItems);
+      }
+      return cleanItems;
+    }
+    return [];
   } catch (e) {
     console.error('Error reading stored paintings', e);
-    return INITIAL_PAINTINGS;
+    return [];
   }
 };
 
@@ -49,10 +78,13 @@ const getStoredEnquiries = (): Enquiry[] => {
   try {
     const raw = localStorage.getItem(STORAGE_KEYS.ENQUIRIES);
     if (!raw) {
-      localStorage.setItem(STORAGE_KEYS.ENQUIRIES, JSON.stringify(INITIAL_ENQUIRIES));
       return INITIAL_ENQUIRIES;
     }
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) {
+      return parsed;
+    }
+    return INITIAL_ENQUIRIES;
   } catch (e) {
     console.error('Error reading stored enquiries', e);
     return INITIAL_ENQUIRIES;
@@ -60,15 +92,30 @@ const getStoredEnquiries = (): Enquiry[] => {
 };
 
 export const fetchPaintings = async (): Promise<Painting[]> => {
-  const supabase = getSupabase();
+  let supabase = getSupabase();
   if (supabase) {
     try {
-      const { data, error } = await supabase
+      let { data, error } = await supabase
         .from('paintings')
         .select('*')
         .order('created_at', { ascending: false });
       
-      if (!error && data && data.length > 0) {
+      // Auto-recovery if credentials in localStorage were invalid or expired
+      if (error && (error.code === 'PGRST301' || error.message?.includes('JWT') || error.message?.includes('API key') || error.message?.includes('apikey'))) {
+        console.warn('[Supabase Fetch Auth Error, retrying with default client]:', error.message);
+        const { DEFAULT_SUPABASE_URL, DEFAULT_SUPABASE_ANON_KEY, setSupabaseCredentials } = await import('./supabaseClient');
+        setSupabaseCredentials(DEFAULT_SUPABASE_URL, DEFAULT_SUPABASE_ANON_KEY);
+        supabase = getSupabase();
+        if (supabase) {
+          const retryRes = await supabase.from('paintings').select('*').order('created_at', { ascending: false });
+          data = retryRes.data;
+          error = retryRes.error;
+        }
+      }
+
+      if (error) {
+        console.error('[Supabase Fetch Error]:', error.message, error);
+      } else if (data && data.length > 0) {
         const mappedData: Painting[] = data.map((row: any) => {
           let imagesList: string[] = [];
           if (Array.isArray(row.images)) {
@@ -109,9 +156,22 @@ export const fetchPaintings = async (): Promise<Painting[]> => {
             user_id: row.user_id
           };
         });
-        // Sync local storage with latest remote records
-        localStorage.setItem(STORAGE_KEYS.PAINTINGS, JSON.stringify(mappedData));
+
+        // Sync local storage with latest remote records from Supabase
+        try {
+          safeSetPaintingsStorage(mappedData);
+        } catch (storageErr) {
+          console.warn('[LocalStorage] Safe catch on saving fetched paintings:', storageErr);
+        }
         return mappedData;
+      } else if (data && data.length === 0) {
+        // Connected to Supabase and confirmed empty table
+        try {
+          safeSetPaintingsStorage([]);
+        } catch (storageErr) {
+          console.warn('[LocalStorage] Safe catch on clearing paintings:', storageErr);
+        }
+        return [];
       }
     } catch (err) {
       console.warn('Supabase fetch failed, falling back to local database:', err);
@@ -138,9 +198,14 @@ export const savePainting = async (painting: Omit<Painting, 'id' | 'created_at'>
     imagesList.push(primaryImageUrl);
   }
 
-  const baseItem: Painting = {
+  // Determine if this is an update of an existing valid UUID in Supabase,
+  // or a conversion of a mock ID (e.g. 'p1') / new painting
+  const isExistingValidUuid = Boolean(painting.id && isValidUUID(painting.id));
+  const finalEntityId = isExistingValidUuid ? (painting.id as string) : generateEntityId();
+
+  let baseItem: Painting = {
     ...painting,
-    id: painting.id || generateEntityId(),
+    id: finalEntityId,
     name: painting.name.trim(),
     description: (painting.description || '').trim(),
     size: painting.size.trim(),
@@ -154,21 +219,21 @@ export const savePainting = async (painting: Omit<Painting, 'id' | 'created_at'>
     medium_details: painting.medium_details ? painting.medium_details.trim() : mediumValue,
     year: normalizedYear,
     featured: Boolean(painting.featured),
-    created_at: painting.id ? (currentList.find(p => p.id === painting.id)?.created_at || new Date().toISOString()) : new Date().toISOString()
+    created_at: (painting.id && isExistingValidUuid) 
+      ? (currentList.find(p => p.id === painting.id)?.created_at || new Date().toISOString()) 
+      : new Date().toISOString()
   };
 
   if (supabase) {
-    const isUpdate = Boolean(painting.id && isValidUUID(painting.id));
-    
-    // Initial payload containing type, category, and medium for universal schema compatibility
+    // Universal schema compatibility payload
     let payload: Record<string, any> = {
       name: baseItem.name,
       description: baseItem.description,
       size: baseItem.size,
       price: baseItem.price,
       type: baseItem.type,
-      category: baseItem.category || baseItem.type, // Satisfies schemas requiring NOT NULL on 'category'
-      medium: baseItem.medium || baseItem.type,     // Satisfies schemas requiring NOT NULL on 'medium'
+      category: baseItem.category || baseItem.type,
+      medium: baseItem.medium || baseItem.type,
       status: baseItem.status,
       image_url: baseItem.image_url,
       year: baseItem.year,
@@ -183,63 +248,98 @@ export const savePainting = async (painting: Omit<Painting, 'id' | 'created_at'>
       payload.medium_details = baseItem.medium_details;
     }
 
-    if (!isUpdate) {
-      payload.id = baseItem.id;
-    }
-
     let lastError: any = null;
     let success = false;
 
-    // Retry loop for any schema variances (e.g. unknown column errors)
-    for (let attempt = 0; attempt < 6; attempt++) {
-      const query = isUpdate
-        ? supabase.from('paintings').update(payload).eq('id', baseItem.id).select()
-        : supabase.from('paintings').insert([payload]).select();
+    // 1. If it has an existing valid UUID, attempt UPDATE first
+    if (isExistingValidUuid) {
+      for (let attempt = 0; attempt < 4; attempt++) {
+        const { data, error } = await supabase
+          .from('paintings')
+          .update(payload)
+          .eq('id', finalEntityId)
+          .select();
 
-      const { data, error } = await query;
+        if (!error && data && data.length > 0) {
+          success = true;
+          baseItem.id = data[0].id || finalEntityId;
+          console.log('[Supabase Painting Update Success]:', baseItem.name, 'UUID:', baseItem.id);
+          break;
+        }
 
-      if (!error) {
-        success = true;
-        console.log(`[Supabase Painting ${isUpdate ? 'Update' : 'Insert'} Success]:`, baseItem.name, data);
+        if (!error && (!data || data.length === 0)) {
+          // Row was not found in Supabase. Fall back to INSERT below.
+          break;
+        }
+
+        lastError = error;
+        const errMsg = (error?.message || '').toLowerCase();
+        if (error && (error.code === 'PGRST204' || error.code === '42703' || errMsg.includes('column') || errMsg.includes('does not exist'))) {
+          const optionalCols = ['images', 'medium_details', 'medium', 'category', 'year', 'featured', 'description'];
+          let fixed = false;
+          for (const col of optionalCols) {
+            if (payload[col] !== undefined && (errMsg.includes(col) || errMsg.includes(`'${col}'`))) {
+              delete payload[col];
+              fixed = true;
+              break;
+            }
+          }
+          if (fixed) continue;
+        }
         break;
       }
+    }
 
-      lastError = error;
-      const errMsg = (error.message || '').toLowerCase();
-      console.warn(`[Supabase Painting Write Attempt ${attempt + 1}] Error:`, error.message, error);
-
-      let adjusted = false;
-
-      // Handle not-null violation for medium, category, or type
-      if (error.code === '23502') {
-        if (errMsg.includes('medium')) {
-          payload.medium = baseItem.medium || baseItem.type || 'Pichwai';
-          adjusted = true;
-        }
-        if (errMsg.includes('category')) {
-          payload.category = baseItem.type || 'Pichwai';
-          adjusted = true;
-        }
-        if (errMsg.includes('type')) {
-          payload.type = baseItem.type || 'Pichwai';
-          adjusted = true;
-        }
+    // 2. If not updated (new artwork, mock ID like 'p1', or update found 0 rows), perform INSERT with proper UUID
+    if (!success) {
+      // Ensure payload.id is ONLY set if it is a valid UUID, otherwise omit it so Postgres generates one
+      if (isValidUUID(finalEntityId)) {
+        payload.id = finalEntityId;
+      } else {
+        delete payload.id;
       }
 
-      // Handle missing / undefined column errors (PGRST204 or 42703)
-      if (error.code === 'PGRST204' || error.code === '42703' || errMsg.includes('column') || errMsg.includes('does not exist')) {
-        const optionalCols = ['images', 'medium_details', 'medium', 'category', 'type', 'year', 'featured', 'description'];
-        for (const col of optionalCols) {
-          if (payload[col] !== undefined && (errMsg.includes(col) || errMsg.includes(`'${col}'`) || errMsg.includes(`"${col}"`))) {
-            delete payload[col];
-            adjusted = true;
-            break;
+      for (let attempt = 0; attempt < 5; attempt++) {
+        const { data, error } = await supabase
+          .from('paintings')
+          .insert([payload])
+          .select();
+
+        if (!error && data && data.length > 0) {
+          success = true;
+          if (data[0].id) {
+            baseItem.id = data[0].id;
           }
+          console.log('[Supabase Painting Insert Success]:', baseItem.name, 'Assigned UUID:', baseItem.id);
+          break;
         }
-      }
 
-      if (!adjusted) {
-        // If couldn't identify specific fix, stop retrying
+        lastError = error;
+        const errMsg = (error?.message || '').toLowerCase();
+        console.warn(`[Supabase Painting Insert Attempt ${attempt + 1}] Notice:`, error?.message);
+
+        // Handle missing column variance (PGRST204 or 42703)
+        if (error && (error.code === 'PGRST204' || error.code === '42703' || errMsg.includes('column') || errMsg.includes('does not exist'))) {
+          const optionalCols = ['images', 'medium_details', 'medium', 'category', 'year', 'featured', 'description', 'id'];
+          let fixed = false;
+          for (const col of optionalCols) {
+            if (payload[col] !== undefined && (errMsg.includes(col) || errMsg.includes(`'${col}'`))) {
+              delete payload[col];
+              fixed = true;
+              break;
+            }
+          }
+          if (fixed) continue;
+        }
+
+        // Handle NOT NULL constraint violations
+        if (error && error.code === '23502') {
+          if (errMsg.includes('medium')) payload.medium = baseItem.medium || baseItem.type || 'Pichwai';
+          if (errMsg.includes('category')) payload.category = baseItem.type || 'Pichwai';
+          if (errMsg.includes('type')) payload.type = baseItem.type || 'Pichwai';
+          continue;
+        }
+
         break;
       }
     }
@@ -250,13 +350,22 @@ export const savePainting = async (painting: Omit<Painting, 'id' | 'created_at'>
     }
   }
 
-  // Update local storage
-  if (painting.id) {
-    const updatedList = currentList.map(p => p.id === baseItem.id ? baseItem : p);
-    localStorage.setItem(STORAGE_KEYS.PAINTINGS, JSON.stringify(updatedList));
+  // Update local storage cleanly
+  // If painting originally had a mock ID (e.g. 'p1'), replace that mock entry in currentList!
+  const originalInputId = painting.id;
+  let updatedList: Painting[];
+  if (originalInputId && currentList.some(p => p.id === originalInputId)) {
+    updatedList = currentList.map(p => p.id === originalInputId ? baseItem : p);
+  } else if (currentList.some(p => p.id === baseItem.id)) {
+    updatedList = currentList.map(p => p.id === baseItem.id ? baseItem : p);
   } else {
-    const updatedList = [baseItem, ...currentList];
-    localStorage.setItem(STORAGE_KEYS.PAINTINGS, JSON.stringify(updatedList));
+    updatedList = [baseItem, ...currentList];
+  }
+  // Update local storage cleanly wrapped in try...catch so quota limits never cause unhandled errors
+  try {
+    safeSetPaintingsStorage(updatedList);
+  } catch (storageErr) {
+    console.warn('[LocalStorage] Safe catch saving updated paintings to baru_gallery_paintings:', storageErr);
   }
 
   return baseItem;
@@ -275,16 +384,25 @@ export const togglePaintingStatus = async (id: string, newStatus: PaintingStatus
   };
 
   const supabase = getSupabase();
-  if (supabase && isValidUUID(id)) {
-    const { error } = await supabase.from('paintings').update({ status: normalizedStatus }).eq('id', id);
-    if (error) {
-      console.error('[Supabase Toggle Status Error]:', error.message, error);
-      throw new Error(`Supabase Error: ${error.message}`);
+  if (supabase) {
+    if (isValidUUID(id)) {
+      const { error } = await supabase.from('paintings').update({ status: normalizedStatus }).eq('id', id);
+      if (error) {
+        console.error('[Supabase Toggle Status Error]:', error.message, error);
+        throw new Error(`Supabase Error: ${error.message}`);
+      }
+    } else {
+      // If the painting had a mock ID like 'p1', persist it as a real row in Supabase!
+      return await savePainting(updatedItem);
     }
   }
 
   const updatedList = currentList.map(p => p.id === id ? updatedItem : p);
-  localStorage.setItem(STORAGE_KEYS.PAINTINGS, JSON.stringify(updatedList));
+  try {
+    safeSetPaintingsStorage(updatedList);
+  } catch (storageErr) {
+    console.warn('[LocalStorage] Safe catch updating painting status in baru_gallery_paintings:', storageErr);
+  }
   return updatedItem;
 };
 
@@ -300,7 +418,11 @@ export const deletePaintingById = async (id: string): Promise<boolean> => {
 
   const currentList = getStoredPaintings();
   const updatedList = currentList.filter(p => p.id !== id);
-  localStorage.setItem(STORAGE_KEYS.PAINTINGS, JSON.stringify(updatedList));
+  try {
+    safeSetPaintingsStorage(updatedList);
+  } catch (storageErr) {
+    console.warn('[LocalStorage] Safe catch deleting painting in baru_gallery_paintings:', storageErr);
+  }
   return true;
 };
 
@@ -314,7 +436,11 @@ export const fetchEnquiries = async (): Promise<Enquiry[]> => {
         .order('created_at', { ascending: false });
       
       if (!error && data && data.length > 0) {
-        localStorage.setItem(STORAGE_KEYS.ENQUIRIES, JSON.stringify(data));
+        try {
+          localStorage.setItem(STORAGE_KEYS.ENQUIRIES, JSON.stringify(data));
+        } catch (e) {
+          console.warn('[LocalStorage] Safe catch saving fetched enquiries:', e);
+        }
         return data as Enquiry[];
       }
     } catch (err) {
@@ -364,7 +490,11 @@ export const createEnquiry = async (enquiryData: Omit<Enquiry, 'id' | 'created_a
 
   const currentList = getStoredEnquiries();
   const updatedList = [newEnquiry, ...currentList];
-  localStorage.setItem(STORAGE_KEYS.ENQUIRIES, JSON.stringify(updatedList));
+  try {
+    localStorage.setItem(STORAGE_KEYS.ENQUIRIES, JSON.stringify(updatedList));
+  } catch (e) {
+    console.warn('[LocalStorage] Safe catch saving new enquiry:', e);
+  }
   return newEnquiry;
 };
 
@@ -381,14 +511,26 @@ export const updateEnquiryStatus = async (id: string, status: EnquiryStatus): Pr
 
   const currentList = getStoredEnquiries();
   const updatedList = currentList.map(e => e.id === id ? { ...e, status } : e);
-  localStorage.setItem(STORAGE_KEYS.ENQUIRIES, JSON.stringify(updatedList));
+  try {
+    localStorage.setItem(STORAGE_KEYS.ENQUIRIES, JSON.stringify(updatedList));
+  } catch (e) {
+    console.warn('[LocalStorage] Safe catch updating enquiry status:', e);
+  }
   return true;
 };
 
 export const resetToInitialGallery = () => {
   if (typeof window !== 'undefined') {
-    localStorage.setItem(STORAGE_KEYS.PAINTINGS, JSON.stringify(INITIAL_PAINTINGS));
-    localStorage.setItem(STORAGE_KEYS.ENQUIRIES, JSON.stringify(INITIAL_ENQUIRIES));
+    try {
+      safeSetPaintingsStorage([]);
+    } catch (storageErr) {
+      console.warn('[LocalStorage] Safe catch on reset gallery paintings:', storageErr);
+    }
+    try {
+      localStorage.setItem(STORAGE_KEYS.ENQUIRIES, JSON.stringify(INITIAL_ENQUIRIES));
+    } catch (storageErr) {
+      console.warn('[LocalStorage] Safe catch on reset enquiries:', storageErr);
+    }
   }
 };
 

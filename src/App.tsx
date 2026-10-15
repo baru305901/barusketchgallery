@@ -13,12 +13,25 @@ import { AdminDashboard } from './components/AdminDashboard';
 import { PaintingDetailModal } from './components/PaintingDetailModal';
 import { Painting, Enquiry, AppTab } from './types';
 import { fetchPaintings, fetchEnquiries } from './lib/store';
-import { INITIAL_PAINTINGS, INITIAL_ENQUIRIES } from './data/initialData';
+import { INITIAL_ENQUIRIES } from './data/initialData';
 
 export default function App() {
   const [currentTab, setCurrentTab] = useState<AppTab>('gallery');
-  const [paintings, setPaintings] = useState<Painting[]>(INITIAL_PAINTINGS);
-  const [enquiries, setEnquiries] = useState<Enquiry[]>(INITIAL_ENQUIRIES);
+  const [paintings, setPaintings] = useState<Painting[]>([]);
+  const [enquiries, setEnquiries] = useState<Enquiry[]>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const raw = localStorage.getItem('baru_gallery_enquiries');
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) {
+            return parsed;
+          }
+        }
+      } catch {}
+    }
+    return [];
+  });
   const [selectedPainting, setSelectedPainting] = useState<Painting | null>(null);
   const [commissionTargetPainting, setCommissionTargetPainting] = useState<Painting | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -67,6 +80,7 @@ export default function App() {
         {currentTab === 'gallery' && (
           <GalleryView 
             paintings={paintings}
+            isLoading={isLoading}
             onSelectPainting={(painting) => setSelectedPainting(painting)}
             onOpenCommission={() => {
               setCommissionTargetPainting(null);

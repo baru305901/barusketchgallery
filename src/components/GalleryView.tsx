@@ -16,12 +16,14 @@ interface GalleryViewProps {
   paintings: Painting[];
   onSelectPainting: (painting: Painting) => void;
   onOpenCommission: () => void;
+  isLoading?: boolean;
 }
 
 export const GalleryView: React.FC<GalleryViewProps> = ({ 
   paintings, 
   onSelectPainting,
-  onOpenCommission
+  onOpenCommission,
+  isLoading = false
 }) => {
   const [selectedType, setSelectedType] = useState<string>('all');
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
@@ -117,18 +119,36 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
           {/* Quick Metrics Bar */}
           <div className="grid grid-cols-3 gap-4 pt-6 border-t border-[#D6C8B8] max-w-lg">
             <div>
-              <div className="font-cinzel text-xl sm:text-2xl font-bold text-[#6B452D]">{paintings.length}</div>
+              <div className="font-cinzel text-xl sm:text-2xl font-bold text-[#6B452D]">
+                {isLoading ? (
+                  <span className="inline-block w-8 h-6 bg-[#D6C8B8]/40 animate-pulse rounded"></span>
+                ) : (
+                  paintings.length
+                )}
+              </div>
               <div className="text-[10px] uppercase tracking-widest text-[#4A2F1F] font-sans-ui font-medium">Total Works</div>
             </div>
             <div>
-              <div className="font-cinzel text-xl sm:text-2xl font-bold text-emerald-700">{availableCount}</div>
+              <div className="font-cinzel text-xl sm:text-2xl font-bold text-emerald-700">
+                {isLoading ? (
+                  <span className="inline-block w-8 h-6 bg-emerald-200/50 animate-pulse rounded"></span>
+                ) : (
+                  availableCount
+                )}
+              </div>
               <div className="text-[10px] uppercase tracking-widest text-[#4A2F1F] font-sans-ui font-medium flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
                 <span>Available</span>
               </div>
             </div>
             <div>
-              <div className="font-cinzel text-xl sm:text-2xl font-bold text-rose-700">{soldCount}</div>
+              <div className="font-cinzel text-xl sm:text-2xl font-bold text-rose-700">
+                {isLoading ? (
+                  <span className="inline-block w-8 h-6 bg-rose-200/50 animate-pulse rounded"></span>
+                ) : (
+                  soldCount
+                )}
+              </div>
               <div className="text-[10px] uppercase tracking-widest text-[#4A2F1F] font-sans-ui font-medium flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-rose-600"></span>
                 <span>Sold</span>
@@ -243,7 +263,78 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
 
       {/* Paintings Grid Showcase */}
       <section>
-        {filteredPaintings.length === 0 ? (
+        {isLoading ? (
+          <div className="space-y-6">
+            {/* Clean Loading Spinner Notice */}
+            <div className="flex items-center justify-center gap-3 py-3.5 px-6 bg-white rounded-xl border border-[#D6C8B8] text-[#4A2F1F] shadow-xs max-w-md mx-auto">
+              <div className="w-4 h-4 border-2 border-[#A8753F] border-t-transparent rounded-full animate-spin"></div>
+              <span className="font-cinzel text-xs font-bold uppercase tracking-widest text-[#6B452D]">
+                Connecting to Gallery Collection...
+              </span>
+            </div>
+
+            {/* Skeleton Shimmer Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-7">
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((idx) => (
+                <div 
+                  key={idx} 
+                  className="bg-white rounded-xl border border-[#D6C8B8] overflow-hidden shadow-xs flex flex-col justify-between animate-pulse"
+                >
+                  {/* Shimmer Image Canvas Area */}
+                  <div className="aspect-4/5 w-full bg-gradient-to-br from-[#F7F1E7] via-[#E9DDCC]/50 to-[#F3ECE1] relative flex items-center justify-center p-4">
+                    <div className="absolute top-3 left-3 w-16 h-4 bg-[#D6C8B8]/60 rounded-sm"></div>
+                    <div className="absolute top-3 right-3 w-20 h-4 bg-[#D6C8B8]/60 rounded-full"></div>
+                    <Palette className="w-10 h-10 text-[#A8753F]/25" />
+                  </div>
+
+                  {/* Shimmer Card Body */}
+                  <div className="p-5 flex-1 flex flex-col justify-between space-y-4 bg-white">
+                    <div className="space-y-2.5">
+                      <div className="flex justify-between items-center">
+                        <div className="h-3 w-24 bg-[#E9DDCC]/70 rounded"></div>
+                        <div className="h-3 w-16 bg-[#E9DDCC]/70 rounded"></div>
+                      </div>
+                      <div className="h-5 w-4/5 bg-[#D6C8B8]/60 rounded"></div>
+                      <div className="h-3 w-full bg-[#E9DDCC]/50 rounded"></div>
+                      <div className="h-3 w-3/4 bg-[#E9DDCC]/40 rounded"></div>
+                    </div>
+
+                    <div className="pt-3 border-t border-[#D6C8B8] space-y-3">
+                      <div className="flex justify-between items-center">
+                        <div className="h-3 w-16 bg-[#E9DDCC]/60 rounded"></div>
+                        <div className="h-5 w-24 bg-[#D6C8B8]/60 rounded"></div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div className="h-8 bg-[#E9DDCC]/60 rounded-md"></div>
+                        <div className="h-8 bg-[#D6C8B8]/60 rounded-md"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : paintings.length === 0 ? (
+          /* Empty Database State: When the database returns an empty array */
+          <div className="p-14 text-center bg-white rounded-2xl border border-[#D6C8B8] space-y-4 shadow-xs max-w-2xl mx-auto my-6">
+            <div className="w-16 h-16 rounded-full bg-[#F7F1E7] border border-[#D6C8B8] flex items-center justify-center mx-auto text-[#6B452D]">
+              <Palette className="w-8 h-8" />
+            </div>
+            <h3 className="font-cinzel text-xl font-bold text-[#2D241E]">No Artworks in Gallery Yet</h3>
+            <p className="text-xs sm:text-sm text-[#4A2F1F] max-w-md mx-auto font-sans-ui leading-relaxed">
+              The gallery collection currently has no listed artworks. Check back soon for new authentic Pichwais and portraits, or order a bespoke custom artwork directly from artist Vishal Baru.
+            </p>
+            <div className="pt-2">
+              <button
+                onClick={onOpenCommission}
+                className="px-6 py-2.5 bg-[#6B452D] hover:bg-[#4A2F1F] text-white text-xs uppercase tracking-widest font-sans-ui font-semibold rounded-md shadow-xs transition-colors"
+              >
+                Request Custom Artwork
+              </button>
+            </div>
+          </div>
+        ) : filteredPaintings.length === 0 ? (
+          /* Filter Mismatch State */
           <div className="p-12 text-center bg-white rounded-2xl border border-[#D6C8B8] space-y-4 shadow-xs">
             <Palette className="w-12 h-12 text-[#7B6858] mx-auto" />
             <h3 className="font-cinzel text-lg font-bold text-[#2D241E]">No Artworks Found</h3>
@@ -262,6 +353,7 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
             </button>
           </div>
         ) : (
+          /* Real Database Artworks */
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-7">
             {filteredPaintings.map((painting) => (
               <PaintingCard
